@@ -220,7 +220,7 @@ export default function App() {
     onChange={ (event) => {
       setAskInput(answerTitle);
       setLang(event.target.value);
-      onSubmit(event);
+      SubmitEvent(event);
       
     }}
     value={userLang.substring(0, 2)}
