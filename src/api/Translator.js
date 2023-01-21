@@ -1,11 +1,11 @@
 export default function Translator(value) {
   const userLang = navigator.language || navigator.userLanguage;
-  console.log(userLang)
+  console.log(userLang);
   if (userLang.toLowerCase() != "pt-br") {
     const english = {
       labelAsk: "What's your question?",
       placeHolderAsk: "Why is the sky blue?",
-      Ask: "Give the answer about this question:",
+      Ask: "Give the answer about this question: ",
       Owl: "Hootin' and tootin' my knowledge around the clock, I'm Quester the Question-Asking Owl. Type a  question to get started!",
       Title: "Gimme a question, NOW!",
       Credits: "By Caique Ponjjar",
@@ -16,9 +16,9 @@ export default function Translator(value) {
     return english[value];
   } else {
     const portuguese = {
-        labelAsk: "Qual é a sua pergunta?",
+      labelAsk: "Qual é a sua pergunta?",
       placeHolderAsk: "Por que o céu é azul?",
-      Ask: "Dê a resposta para esta pergunta:",
+      Ask: "Dê a resposta para esta pergunta: ",
       Owl: "Uilando e assobiando meu conhecimento ao longo do dia, eu sou a Sabichona, a Coruja Questionadora. Digite uma pergunta para começar!",
       Title: "Bem vindo ao Quester",
       Send: "Enviar",
