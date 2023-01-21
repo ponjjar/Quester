@@ -8,13 +8,13 @@ const DEFAULT_PARAMS = {
   presence_penalty: 0,
 };
 
-function generatePrompt(ask) {
+function generatePrompt(ask, userLang) {
   const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
-  return `${Translator("Ask")}:
+  return `${Translator("Ask", userLang)}:
 ${ask}
 `;
 }
-export default async function onSubmit(askInput) {
+export default async function onSubmit(askInput, userLang) {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -23,7 +23,7 @@ export default async function onSubmit(askInput) {
     },
     body: JSON.stringify({
       ...DEFAULT_PARAMS,
-      prompt: generatePrompt(askInput),
+      prompt: generatePrompt(askInput,userLang),
     }),
   };
   const response = await fetch(

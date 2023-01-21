@@ -67,7 +67,7 @@ export default function App() {
     event.preventDefault();
     setLoading(true);
     try {
-      setResult(await onSubmit(askInput));
+      setResult(await onSubmit(askInput, userLang));
     } catch {
       setResult("");
     }
