@@ -110,7 +110,7 @@ export default function App() {
               size="small"
               style={{ backgroundColor: "white" }}
               value={askInput}
-              onChange={(e) => {setAskInput(e.target.value); onSubmit(e);
+              onChange={(e) => {setAskInput(e.target.value);
               }
               }
               placeholder={Translator("placeHolderAnswer", userLang)}
@@ -218,7 +218,10 @@ export default function App() {
     labelId="demo-simple-select-label"
     id="demo-simple-select"
     onChange={ (event) => {
+      setAskInput(answerTitle);
       setLang(event.target.value);
+      onSubmit(event);
+      
     }}
     value={userLang.substring(0, 2)}
   >
