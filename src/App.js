@@ -53,7 +53,6 @@ const theme = createTheme({
     },
   },
 });
-const availableLangs = Translator("availableLangs", "en");
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState();
@@ -111,7 +110,9 @@ export default function App() {
               size="small"
               style={{ backgroundColor: "white" }}
               value={askInput}
-              onChange={(e) => setAskInput(e.target.value)}
+              onChange={(e) => {setAskInput(e.target.value); onSubmit(e);
+              }
+              }
               placeholder={Translator("placeHolderAnswer", userLang)}
             />
 
@@ -210,7 +211,7 @@ export default function App() {
   aria-describedby="parent-modal-description"
 >
 <Box sx={{ ...style, width: 400 }}>
-    <h2 id="parent-modal-title">Text in a modal</h2>
+    <h2 id="parent-modal-title"> {userLang} </h2>
     <FormControl fullWidth>
   <InputLabel id="demo-simple-select-label">{Translator("ChangeLang", userLang)}</InputLabel>
   <Select
@@ -221,7 +222,7 @@ export default function App() {
     }}
     value={userLang.substring(0, 2)}
   >
-    {availableLangs.map(({ label, value }, index) =>  (<MenuItem key={index} value={value}>{label}</MenuItem>
+    { Translator("availableLangs", userLang).map(({ label, value }, index) =>  (<MenuItem key={index} value={value}>{label}</MenuItem>
     ))}
   </Select>
 </FormControl>

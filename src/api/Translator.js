@@ -1,6 +1,8 @@
 export default function Translator(value, userLang) {
   if (value === "lang") {
     return userLang;
+  }  if (userLang === null) {
+    userLang = "en";
   }
   else if (value == "availableLangs") {
     const availableLangs = [
