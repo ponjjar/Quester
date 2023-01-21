@@ -42,7 +42,6 @@ export default async function onSubmit(askInput) {
   res.status(200).json({ result: completion.data.choices[0].text });
   const data = await res.json();
   console.log(data)*/
-  console.log(data.choices[0].text);
   //remove the first line if has a line break
   for (let i = 0; i < 3; i++) {
     if (data.choices[0].text.split("\n")[0] === "") {
