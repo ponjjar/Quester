@@ -1,3 +1,4 @@
+import Translator from "./Translator";
 const DEFAULT_PARAMS = {
   "model": "text-davinci-003",
   "temperature": 0.1,
@@ -9,9 +10,7 @@ const DEFAULT_PARAMS = {
 
 function generatePrompt(ask) {
   const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
-  return `Give the answer about this question.
-Ask: ${ask}
-Answer:`;
+  return `${Translator("Ask")} ${ask}`;
 
 }
 export default async function onSubmit(askInput) {
