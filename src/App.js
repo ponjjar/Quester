@@ -24,7 +24,7 @@ import reportWebVitals from "./reportWebVitals";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import Modal from '@mui/material/Modal';
-import { Box, Chip, CircularProgress, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, Chip, CircularProgress, InputLabel, MenuItem, Select, Slider } from "@mui/material";
 import onSubmit from "./api/Generate";
 
 const style = {
@@ -56,7 +56,8 @@ const theme = createTheme({
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState();
-  const [openModal, setModalVisible] = useState(false);
+  const [openModalLang, setModalVisibleLang] = useState(false);
+  const [temperature, setTemperature] = useState(0.1);
   const [askInput, setAskInput] = useState("");
   const [answerTitle, setAnswerTitle] = useState("");
   
@@ -66,13 +67,13 @@ export default function App() {
     event.preventDefault();
     setLoading(true);
     try {
-      setResult(await onSubmit(askInput, userLang));
+      setResult(await onSubmit(askInput, userLang, temperature));
     } catch {
       setResult("");
     }
     setLoading(false);
 
-    setAnswerTitle(askInput);
+    setAnswerTitle (askInput);
     setAskInput("");
   }
   
@@ -197,7 +198,15 @@ export default function App() {
                   variant="outlined"color="success" 
                   label={Translator("lang", userLang)}
                   onClick={() =>
-                    setModalVisible(!openModal)
+                    setModalVisibleLang(!openModalLang)
+                  }
+                />
+                  <Chip
+                  size="small"
+                  variant="outlined"color="error" 
+                  label={Translator("Random", userLang) + " " + temperature}
+                  onClick={() =>
+                    setModalVisibleLang(!openModalLang)
                   }
                 />
            
@@ -205,8 +214,8 @@ export default function App() {
             </Card>
           </Collapse>
           <Modal
-  open={openModal}
-  onClose={() =>(setModalVisible(!openModal))}
+  open={openModalLang}
+  onClose={() =>(setModalVisibleLang(!openModalLang))}
   aria-labelledby="parent-modal-title"
   aria-describedby="parent-modal-description"
 >
@@ -228,9 +237,23 @@ export default function App() {
     { Translator("availableLangs", userLang).map(({ label, value }, index) =>  (<MenuItem key={index} value={value}>{label}</MenuItem>
     ))}
   </Select>
+  <h2 id="simple-select-label">{Translator("Random", userLang)}</h2>
+  <Slider
+   id="simple-select-label"
+    aria-label="Temperature"
+    defaultValue={temperature}
+    onChange = {(event, newValue) => {  setTemperature(newValue);}}
+    valueLabelDisplay="auto"
+    step={0.1}
+    marks
+    min={0.1}
+    max={0.9}
+    
+  />
 </FormControl>
   </Box>
 </Modal>
+
         </Container>
       </center>
     </ThemeProvider>

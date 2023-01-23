@@ -14,7 +14,10 @@ function generatePrompt(ask, userLang) {
 ${ask}
 `;
 }
-export default async function onSubmit(askInput, userLang) {
+export default async function onSubmit(askInput, userLang, temperature) {
+  if (temperature != 0.1) {
+    DEFAULT_PARAMS.temperature = temperature;
+  }
   const requestOptions = {
     method: "POST",
     headers: {

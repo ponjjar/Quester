@@ -30,6 +30,7 @@ export default function Translator(value, userLang) {
       Credits: "Feito por Caique Ponjjar",
       Error: "Algo deu errado, tente novamente mais tarde",
       ChangeLang: "Escolha seu idioma",
+      Random: "Padrões aleatórios",
     };
     return portuguese[value];
   } else if (userLang.toLowerCase().includes("es")) {
@@ -44,6 +45,7 @@ export default function Translator(value, userLang) {
       Credits: "Hecho por Caique Ponjjar",
       Error: "Algo salió mal, inténtalo de nuevo más tarde",
       ChangeLang: "Elige tu idioma",
+      Random: "Patrones aleatorios",
     };
     return spanish[value];
   } else if (userLang.toLowerCase().includes("fr")) {
@@ -58,6 +60,7 @@ export default function Translator(value, userLang) {
       Credits: "Fait par Caique Ponjjar",
       Error: "Quelque chose s'est mal passé, réessayez plus",
       ChangeLang: "Choisissez votre langue",
+      Random: "Modèles aléatoires",
        }
     return french[value];
   } else if (userLang.toLowerCase().includes("de")) {
@@ -72,6 +75,7 @@ export default function Translator(value, userLang) {
       Credits: "Gemacht von Caique Ponjjar",
       Error: "Etwas ist schief gelaufen, versuchen Sie es später erneut",
       ChangeLang: "Wählen Sie Ihre Sprache",
+      Random: "Zufällige Muster",
     };
     return german[value];
   } else if (userLang.toLowerCase().includes("it")) {
@@ -86,6 +90,7 @@ export default function Translator(value, userLang) {
       Credits: "Fatto da Caique Ponjjar",
       Error: "Qualcosa è andato storto, riprova più tardi",
       ChangeLang: "Scegli la tua lingua",
+      Random: "Modelli casuali",
     };
     return italian[value];
   } else if (userLang.toLowerCase().includes("ru")) {
@@ -93,13 +98,14 @@ export default function Translator(value, userLang) {
       labelAsk: "Какой у тебя вопрос?",
       placeHolderAsk: "Почему небо синее?",
       Ask: "Дайте ответ на этот вопрос: ",
-      Owl: "Uilando и пугая мои знания в течение всего дня, я Quester, сова, которая задает вопросы. Напишите вопрос, чтобы начать!",
+      Owl: " пугая мои знания в течение всего дня, я Quester, сова, которая задает вопросы. Напишите вопрос, чтобы начать!",
       Title: "Дай мне вопрос, СЕЙЧАС!",
       Send: "Отправить",
       Wait: "Подождите",
       Credits: "Сделано Caique Ponjjar",
       Error: "Что-то пошло не так, попробуйте позже",
       ChangeLang: "Выберите свой язык",
+      Random: "Случайные образцы",
     };
     return russian[value];
   } else if (userLang.toLowerCase().includes("ja")) {
@@ -114,6 +120,7 @@ export default function Translator(value, userLang) {
       Credits: "Caique Ponjjarによって作られた",
       Error: "何かが間違っていたので、後でもう一度やり直してください",
       ChangeLang: "あなたの言語を選択してください",
+      Random: "ランダムなパターン",
     };
     return japanese[value];
   } else if (userLang.toLowerCase().includes("zh")) {
@@ -128,6 +135,7 @@ export default function Translator(value, userLang) {
       Credits: "由Caique Ponjjar制作",
       Error: "出了一些问题，请稍后再试",
       ChangeLang: "选择你的语言",
+      Random: "随机模式",
     };
     return chinese[value];
    }
@@ -143,6 +151,7 @@ export default function Translator(value, userLang) {
       Wait: "Wait",
       Error: "Some error ocurred, try again later",
       ChangeLang: "Choose your language",
+      Random: "Random patterns",
     };
     return english[value];
   }
