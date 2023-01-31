@@ -1,4 +1,4 @@
-# Quester - OpenIA Question Finder
+<h1 align="center"> Quester - OpenIA Question Finder </h1>
 
 <p align="center">
 
