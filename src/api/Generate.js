@@ -14,10 +14,17 @@ function generatePrompt(ask, userLang) {
 ${ask}
 `;
 }
-export default async function onSubmit(askInput, userLang, temperature) {
+function generateSuggestions(ask, userLang) {
+  const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
+  return `${Translator("suggestions", userLang)}:
+${ask}
+`;
+}
+export default async function onSubmit(askInput, userLang, temperature, suggestions) {
   if (temperature != 0.1) {
     DEFAULT_PARAMS.temperature = temperature;
   }
+  
   const requestOptions = {
     method: "POST",
     headers: {
@@ -26,7 +33,7 @@ export default async function onSubmit(askInput, userLang, temperature) {
     },
     body: JSON.stringify({
       ...DEFAULT_PARAMS,
-      prompt: generatePrompt(askInput,userLang),
+      prompt: suggestions == undefined? generatePrompt(askInput,userLang) : generateSuggestions(askInput,userLang)
     }),
   };
   const response = await fetch(
@@ -51,5 +58,11 @@ export default async function onSubmit(askInput, userLang, temperature) {
       data.choices[0].text = data.choices[0].text.slice(1);
     }
   }
+  if(suggestions != undefined){
+    let newData = data.choices[0].text.split("-");
+
+    return newData
+  }
+
   return data.choices[0].text;
 }

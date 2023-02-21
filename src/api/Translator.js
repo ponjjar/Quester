@@ -17,6 +17,16 @@ export default function Translator(value, userLang) {
       { value: "zh", label: "中文" },
     ];
     return availableLangs;
+  }  else if (value == "availableThemes") {
+    const availableLangs = [
+      { value: "light", label: "Light" },
+      { value: "dark", label: "Dark" },
+      { value: "night", label: "Night" },
+      { value: "sunLight", label: "Sun Light" },
+      { value: "DioGo", label: "Diogo (secret)" },
+      { value: "JuLiA", label: "Julia (secret)" },
+    ];
+    return availableLangs;
   }
   else if (userLang.toLowerCase().includes("pt")) {
     const portuguese = {
@@ -30,7 +40,12 @@ export default function Translator(value, userLang) {
       Credits: "Feito por Caique Ponjjar",
       Error: "Algo deu errado, tente novamente mais tarde",
       ChangeLang: "Escolha seu idioma",
+      ChangeTheme: "Alterar o tema",
       Random: "Padrões aleatórios",
+      Customs: "Personalizações",
+      Copy: "Copiar",
+      AnotherAsks: "Sugestões de perguntas",
+      suggestions: "Dê outras (minimo de 3, maximo 10) principais perguntas separadas em tópicos por '-' sobre "
     };
     return portuguese[value];
   } else if (userLang.toLowerCase().includes("es")) {
@@ -45,7 +60,15 @@ export default function Translator(value, userLang) {
       Credits: "Hecho por Caique Ponjjar",
       Error: "Algo salió mal, inténtalo de nuevo más tarde",
       ChangeLang: "Elige tu idioma",
+      ChangeTheme: "Cambiar el tema",
       Random: "Patrones aleatorios",
+      Customs: "Personalizaciones",
+      Copy: "Copiar",
+      AnotherAsks: "Sugerencias de preguntas",
+      suggestions: "Dame otras (mínimo de 3, máximo 10) principales preguntas separadas por '-' sobre "
+
+      
+
     };
     return spanish[value];
   } else if (userLang.toLowerCase().includes("fr")) {
@@ -60,7 +83,12 @@ export default function Translator(value, userLang) {
       Credits: "Fait par Caique Ponjjar",
       Error: "Quelque chose s'est mal passé, réessayez plus",
       ChangeLang: "Choisissez votre langue",
+      ChangeTheme: "Changer le thème",
       Random: "Modèles aléatoires",
+      Copy: "Copier",
+      Customs: "Personnalisation",
+      AnotherAsks: "Suggestions de questions",
+      suggestions: "Donnez d'autres (minimum de 3, maximum 10) principales questions séparées par '-' sur "
        }
     return french[value];
   } else if (userLang.toLowerCase().includes("de")) {
@@ -75,7 +103,12 @@ export default function Translator(value, userLang) {
       Credits: "Gemacht von Caique Ponjjar",
       Error: "Etwas ist schief gelaufen, versuchen Sie es später erneut",
       ChangeLang: "Wählen Sie Ihre Sprache",
+      ChangeTheme: "Thema ändern",
       Random: "Zufällige Muster",
+      Copy: "Kopieren",
+      Customs: "Personalisierungen",
+      AnotherAsks: "Vorschläge für Fragen",
+      suggestions: "Geben Sie weitere (mindestens 3, maximal 10) Hauptfragen mit '-' getrennt über "
     };
     return german[value];
   } else if (userLang.toLowerCase().includes("it")) {
@@ -90,7 +123,12 @@ export default function Translator(value, userLang) {
       Credits: "Fatto da Caique Ponjjar",
       Error: "Qualcosa è andato storto, riprova più tardi",
       ChangeLang: "Scegli la tua lingua",
+      ChangeTheme: "Cambia il tema",
       Random: "Modelli casuali",
+      Copy: "Copia",
+      Customs: "Personalizzazioni",
+      AnotherAsks: "Suggerimenti di domande",
+      suggestions: "Dai altre (minimo 3, massimo 10) domande principali separate da '-' su "
     };
     return italian[value];
   } else if (userLang.toLowerCase().includes("ru")) {
@@ -105,7 +143,12 @@ export default function Translator(value, userLang) {
       Credits: "Сделано Caique Ponjjar",
       Error: "Что-то пошло не так, попробуйте позже",
       ChangeLang: "Выберите свой язык",
+      ChangeTheme: "Изменить тему",
       Random: "Случайные образцы",
+      Copy: "Копировать",
+      AnotherAsks: "Предложения вопросов",
+      Customs: "Настройки",
+      suggestions: "Дайте другие (минимум 3, максимум 10) основные вопросы, разделенные '-' на "
     };
     return russian[value];
   } else if (userLang.toLowerCase().includes("ja")) {
@@ -120,7 +163,12 @@ export default function Translator(value, userLang) {
       Credits: "Caique Ponjjarによって作られた",
       Error: "何かが間違っていたので、後でもう一度やり直してください",
       ChangeLang: "あなたの言語を選択してください",
+      ChangeTheme: "テーマを変更する",
       Random: "ランダムなパターン",
+      Copy: "コピー",
+      AnotherAsks: "質問の提案",
+      Customs: "カスタマイズ",
+      suggestions: "他の主要な質問（最小3、最大10）を'-'で区切って入力してください "
     };
     return japanese[value];
   } else if (userLang.toLowerCase().includes("zh")) {
@@ -135,7 +183,12 @@ export default function Translator(value, userLang) {
       Credits: "由Caique Ponjjar制作",
       Error: "出了一些问题，请稍后再试",
       ChangeLang: "选择你的语言",
+      ChangeTheme: "更改主题",
       Random: "随机模式",
+      Copy: "复制",
+      Customs: "自定义",
+      AnotherAsks: "问题建议",
+      suggestions: "给出其他（最少3个，最多10个）主要问题，用'-'分隔 "
     };
     return chinese[value];
    }
@@ -151,7 +204,12 @@ export default function Translator(value, userLang) {
       Wait: "Wait",
       Error: "Some error ocurred, try again later",
       ChangeLang: "Choose your language",
+      ChangeTheme: "Change theme",
       Random: "Random patterns",
+      Copy: "Copy",
+      Customs: "Customizations",
+      AnotherAsks: "Questions suggestions",
+      suggestions: "Give other (at least 3, at most 10) main questions separated by '-' about "
     };
     return english[value];
   }
