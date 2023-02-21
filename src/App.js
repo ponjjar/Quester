@@ -41,6 +41,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import onSubmit from "./api/Generate";
+import { Edit } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -179,24 +180,28 @@ export default function App() {
   async function SubmitEvent(event, anotherAsk) {
     event.preventDefault();
     setLoading([true, true]);
-    let newAsk = anotherAsk != undefined ? anotherAsk : askInput;
+    let loadingSubmit = true;
+    const newAsk = anotherAsk != undefined ? anotherAsk : askInput;
     try {
       setResult(await onSubmit(newAsk, userLang, temperature));
     } catch {
       setResult("");
     }
     setLoading([false, true]);
-    setAnswerTitle(askInput);
+    loadingSubmit = false;
+    setAnswerTitle(newAsk);
     setAskInput("");
-    if (loading[0] == false && loading[1] == true) {
+    if (loadingSubmit == false) {
       try {
-        setLoading([false, true]);
         setSuggestions(await onSubmit(newAsk, userLang, temperature, true));
       } catch {
+        console.log("Error on suggestions")
         setSuggestions("");
       }
       console.log("Suggestions: " + suggestions);
       setLoading([false, false]);
+          
+      
     }
   }
 
@@ -215,9 +220,9 @@ export default function App() {
         <Container fixed>
           <Snackbar
             open={CopySucess}
-            autoHideDuration={6000}
+            autoHideDuration={600}
             anchorOrigin={{
-              vertical: "bottom",
+              vertical: "top",
               horizontal: "center",
             }}
             onClose={() => {
@@ -229,7 +234,6 @@ export default function App() {
                 setCopySucess(false);
               }}
               severity="success"
-              sx={{ width: "100%" }}
             >
               {Translator("Copy", userLang)}
             </Alert>
@@ -246,17 +250,17 @@ export default function App() {
               display: "flex",
               padding: "5px",
               alignItems: "center",
-              maxWidth: "75%",
+              maxWidth: "85%",
             }}
           >
             <TextField
               id="outlined-multiline-flexible"
               label={Translator("labelAsk", userLang)}
               multiline
+              size="large"
               maxRows={10}
               sx={{ ml: 1, flex: 1, marginRight: 0.5 }}
               variant="outlined"
-              size="small"
               style={{ backgroundColor: theme.palette.background.paper }}
               value={askInput}
               onChange={(e) => {
@@ -269,6 +273,7 @@ export default function App() {
               <Button
                 variant="contained"
                 disabled={true}
+                style={{ height: 56 }}
                 startIcon={<CircularProgress size={25} />}
               >
                 {" "}
@@ -277,6 +282,8 @@ export default function App() {
             ) : (
               <Button
                 variant="contained"
+                style={{ height: 56 }}
+                size="large"
                 onClick={SubmitEvent}
                 onSubmit={onSubmit}
                 startIcon={<QuestionAnswerIcon />}
@@ -295,14 +302,13 @@ export default function App() {
           >
             <Card>
               <CardContent>
-                <Typography gutterBottom variant="h6">
-                  {answerTitle ? (
+              {answerTitle ?<><Typography gutterBottom variant="h6" onClick = {() => { setAskInput(answerTitle);}}>
+                   {
                     answerTitle[0].toUpperCase() +
                     answerTitle.slice(1).toLowerCase()
-                  ) : (
-                    <></>
-                  )}
-                </Typography>
+                   }
+                    <IconButton color="primary"  > <Edit/></IconButton> </Typography></> : <></>}
+               
                 {result ? (
                   <>
                     <Tooltip
@@ -315,7 +321,9 @@ export default function App() {
                         fullWidth
                         justify
                         value={result}
+                        autoFocus={true}
                         InputProps={{
+                          autoFocus: true,
                           readOnly: true,
                         }}
                         endAdornment={
@@ -388,7 +396,7 @@ export default function App() {
               </CardActions>
             </Card>
             {/* Card de sugestões de perguntas */}
-            {loading[1] && result && (
+            {(loading[1] && result) && (
               <Skeleton
                 variant="rectangular"
                 style={{ marginTop: 3 }}
@@ -397,7 +405,7 @@ export default function App() {
             )}
             <Collapse
               style={{ marginTop: 3 }}
-              in={!loading[1]}
+              in={!loading[1] && result}
               enter={300}
               timeout={300}
               collapsedSize={0}
@@ -429,14 +437,13 @@ export default function App() {
                               }
                               label={suggestion}
                               onClick={(event) => {
-                                let newData = suggestion;
+                                let newData = event.target.innerText;
                                 for (let i = 0; i < 3; i++) {
-                                  if (newData[i].split("\n")[0] === "") {
-                                    newData[i] = newData[i].slice(1);
+                                  if (newData.split("\n")[0] === "") {
+                                    newData = newData.slice(1);
                                   }
                                 }
-                                setAskInput(newData
-                                  );
+                                setAskInput(newData);
                                 SubmitEvent(event, newData);
                               }}
                             />
