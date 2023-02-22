@@ -21,6 +21,7 @@
 <img src="https://img.shields.io/github/repo-size/Caique-P/Quester?style=flat&label=Size"/>
 </p>
 
+---
 
 Quester is an OpenIA question finder app that allows you to quickly and easily search for questions related to a given topic. Using the app, you can quickly find questions related to a given topic and use them to train ReactJS with Material UI.
 
