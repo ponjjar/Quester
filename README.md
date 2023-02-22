@@ -1,4 +1,10 @@
-<h1 align="center"> Quester - OpenIA Question Finder </h1>
+
+<p align="center">
+
+<a href="https://quester-five.vercel.app">
+<img src="https://user-images.githubusercontent.com/58194653/220790674-8aa78144-759a-4e76-bbb1-057c798eb708.png" alt="Quester" width="65%"/> </a>
+
+</p>
 
 <p align="center">
 
@@ -15,6 +21,7 @@
 <img src="https://img.shields.io/github/repo-size/Caique-P/Quester?style=flat&label=Size"/>
 </p>
 
+
 Quester is an OpenIA question finder app that allows you to quickly and easily search for questions related to a given topic. Using the app, you can quickly find questions related to a given topic and use them to train ReactJS with Material UI.
 
 OpenIA provides a powerful API for quickly finding questions related to a given topic. With Quester, you can use the OpenIA API to quickly and easily find questions related to your chosen topic, saving you time and effort.
@@ -24,7 +31,7 @@ Quester is built using ReactJS and Material UI. The app is designed to be intuit
 <p align="center">
 
 <a href="https://quester-five.vercel.app">
-<img src="https://user-images.githubusercontent.com/58194653/210456489-844a067a-535d-4c55-9b60-e4bd8c7c83db.gif" alt="FinApp" width="75%"/>
+<img src="https://user-images.githubusercontent.com/58194653/210456489-844a067a-535d-4c55-9b60-e4bd8c7c83db.gif" alt="Quester Acess" width="75%"/>
 Access Quester App </a>
 
 </p>
