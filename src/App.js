@@ -251,7 +251,7 @@ export default function App() {
                 {result ? (
                   <>
                     <Tooltip
-                      placement="right"
+                      placement="bottom"
                       title={Translator("Copy", userLang)}
                     >
                       <TextField
