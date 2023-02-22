@@ -17,7 +17,7 @@
 
 Quester is an OpenIA question finder app that allows you to quickly and easily search for questions related to a given topic. Using the app, you can quickly find questions related to a given topic and use them to train ReactJS with Material UI.
 
-Quester is powered by OpenIA, an open source natural language processing (NLP) platform. OpenIA provides a powerful API for quickly finding questions related to a given topic. With Quester, you can use the OpenIA API to quickly and easily find questions related to your chosen topic, saving you time and effort.
+OpenIA provides a powerful API for quickly finding questions related to a given topic. With Quester, you can use the OpenIA API to quickly and easily find questions related to your chosen topic, saving you time and effort.
 
 Quester is built using ReactJS and Material UI. The app is designed to be intuitive and easy to use, allowing you to quickly find the questions you need to train your ReactJS with Material UI.
 
