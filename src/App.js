@@ -5,8 +5,7 @@ import { Configuration, OpenAIApi } from "openai";
 import { useState, component } from "react";
 import Translator from "./api/Translator";
 import FormControl from "@mui/material/FormControl";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
-import { blue, green, purple, yellow } from "@mui/material/colors";
+import { ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
@@ -23,7 +22,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Collapse from "@mui/material/Collapse";
 import reportWebVitals from "./reportWebVitals";
-import SchoolIcon from '@mui/icons-material/School';
+import SchoolIcon from "@mui/icons-material/School";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import Modal from "@mui/material/Modal";
@@ -42,6 +41,7 @@ import {
 } from "@mui/material";
 import onSubmit from "./api/Generate";
 import { Edit } from "@mui/icons-material";
+import themeStyle from "./api/Theme";
 
 const style = {
   position: "absolute",
@@ -58,7 +58,7 @@ const style = {
 };
 export default function App() {
   //loading [loading, loadingSuggestions]
-  const [loading, setLoading] = useState([false, true]);
+  const [loading, setLoading] = useState([false, false]);
   const [result, setResult] = useState();
   const [suggestions, setSuggestions] = useState([]);
   const [openModalLang, setModalVisibleLang] = useState(false);
@@ -66,115 +66,21 @@ export default function App() {
   const [askInput, setAskInput] = useState("");
   const [answerTitle, setAnswerTitle] = useState("");
   const [CopySucess, setCopySucess] = useState(false);
-  const [themeApplyed, setTheme] = useState("night");
-  if(sessionStorage.getItem("theme") != null && sessionStorage.getItem("theme") != themeApplyed){
+  const [themeApplyed, setTheme] = useState("light");
+  if (
+    sessionStorage.getItem("theme") != null &&
+    sessionStorage.getItem("theme") != themeApplyed
+  ) {
     setTheme(sessionStorage.getItem("theme"));
-  }else if(sessionStorage.getItem("theme") == null){
+  } else if (sessionStorage.getItem("theme") == null) {
     sessionStorage.setItem("theme", themeApplyed);
   }
+  const theme = themeStyle(themeApplyed);
 
-  const theme = themeApplyed == "sunLight" ? createTheme({
-    palette: {
-      background: {
-        default:  "#ffe4a6",
-        paper:  "#fcf4e6",
-      },
-      primary: {
-        main: blue[500],
-      },
-      secondary: {
-        main: green[500],
-      },
-    },
-  }): themeApplyed == "night" ? createTheme({
-    palette: {
-      background: {
-        mode: 'dark',
-        default:  "#0f0a26",
-        paper: "#1C1347",
-      },
-      primary: {
-        main: blue[500],
-      },
-      text: {
-        primary: "#fff",
-        secondary: "#b3b3b3",
-      },
-      secondary: {
-        main: green[500],
-      },
-    },
-  }): themeApplyed == "dark" ? createTheme({
-    palette: {
-      background: {
-        mode: 'dark',
-        default:  "#000000",
-        paper: "#1a1a1a",
-      },
-      primary: {
-        main: blue[900],
-      },
-
-      text: {
-        primary: "#fff",
-        secondary: "#b3b3b3",
-      },
-      secondary: {
-        main: green[900],
-      },
-    },
-  }): themeApplyed == "DioGo" ? createTheme({
-    palette: {
-      background: {
-        mode: 'dark',
-        default:  "#002e02",
-        paper: "#00291e",
-      },
-      primary: {
-        main: green[900],
-      },
-
-      text: {
-        primary: "#fff",
-        secondary: green[1000],
-      },
-      secondary: {
-        main: yellow[900],
-      },
-    },
-  }): themeApplyed == "JuLiA" ? createTheme({
-    palette: {
-      background: {
-        mode: 'light',
-        default:  "#fc86c3",
-        paper: "#fac5e1",
-      },
-      primary: {
-        main: purple[500],
-      },
-
-      text: {
-        secondary: purple[900],
-      },
-      secondary: {
-        main: green[900],
-      },
-    },
-  }): themeApplyed == "light" && createTheme({
-    palette: {
-      background: {
-        default:  "#fcf4e6",
-      },
-      primary: {
-        main: blue[500],
-      },
-      secondary: {
-        main: green[500],
-      },
-    },
-  });
   const [userLang, setLang] = useState(
-    navigator.language || navigator.userLanguage
+    sessionStorage.getItem("lang") != null
+      ? sessionStorage.getItem("lang")
+      : navigator.language || navigator.userLanguage
   );
 
   async function SubmitEvent(event, anotherAsk) {
@@ -195,15 +101,23 @@ export default function App() {
       try {
         setSuggestions(await onSubmit(newAsk, userLang, temperature, true));
       } catch {
-        console.log("Error on suggestions")
+        console.log("Error on suggestions");
         setSuggestions("");
       }
       console.log("Suggestions: " + suggestions);
       setLoading([false, false]);
-          
-      
     }
   }
+
+  React.useEffect(() =>  {
+  if(!result && suggestions.length < 1){
+    async function start(){
+      setSuggestions(await onSubmit(Translator("otherFacts", userLang), userLang, 0.1, true));
+    }
+    start()
+    
+  } }, [result, suggestions]);
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -238,9 +152,20 @@ export default function App() {
               {Translator("Copy", userLang)}
             </Alert>
           </Snackbar>
-          <Typography variant="h4" gutterBottom style={{borderRadius:"10px", backgroundColor:theme.palette.background.paper, padding:"10px", marginTop:"10px", marginBottom:"10px", width:"fit-content"}}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            style={{
+              borderRadius: "10px",
+              backgroundColor: theme.palette.background.paper,
+              padding: "10px",
+              marginTop: "10px",
+              marginBottom: "10px",
+              width: "fit-content",
+            }}
+          >
             {Translator("Title", userLang)}
-            <IconButton >
+            <IconButton>
               <SchoolIcon color="primary"></SchoolIcon>
             </IconButton>
           </Typography>
@@ -302,13 +227,27 @@ export default function App() {
           >
             <Card>
               <CardContent>
-              {answerTitle ?<><Typography gutterBottom variant="h6" onClick = {() => { setAskInput(answerTitle);}}>
-                   {
-                    answerTitle[0].toUpperCase() +
-                    answerTitle.slice(1).toLowerCase()
-                   }
-                    <IconButton color="primary"  > <Edit/></IconButton> </Typography></> : <></>}
-               
+                {answerTitle ? (
+                  <>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      onClick={() => {
+                        setAskInput(answerTitle);
+                      }}
+                    >
+                      {answerTitle[0].toUpperCase() +
+                        answerTitle.slice(1).toLowerCase()}
+                      <IconButton color="primary">
+                        {" "}
+                        <Edit />
+                      </IconButton>{" "}
+                    </Typography>
+                  </>
+                ) : (
+                  <></>
+                )}
+
                 {result ? (
                   <>
                     <Tooltip
@@ -396,7 +335,7 @@ export default function App() {
               </CardActions>
             </Card>
             {/* Card de sugestões de perguntas */}
-            {(loading[1] && result) && (
+            {(loading[1] && suggestions.length > 1 )&& (
               <Skeleton
                 variant="rectangular"
                 style={{ marginTop: 3 }}
@@ -405,7 +344,7 @@ export default function App() {
             )}
             <Collapse
               style={{ marginTop: 3 }}
-              in={!loading[1] && result}
+              in={!loading[1]  && suggestions.length > 1}
               enter={300}
               timeout={300}
               collapsedSize={0}
@@ -419,22 +358,21 @@ export default function App() {
                   <CardActions style={{ display: "block" }}>
                     {suggestions ? (
                       suggestions.map(
-                        (suggestion) =>
+                        (suggestion, index) => { let color =  [
+                          
+                          "secondary",
+                         
+                          "error","primary",
+                          "warning",
+                          "info", "success",
+                          "default",
+                        ][index % 7];
+                          return (
                           suggestion.trim() != "" && (
                             <Chip
                               size="large"
                               variant="outlined"
-                              color={
-                                [
-                                  "primary",
-                                  "secondary",
-                                  "success",
-                                  "error",
-                                  "warning",
-                                  "info",
-                                  "default",
-                                ][Math.floor(Math.random() * 7)]
-                              }
+                              color={color}
                               label={suggestion}
                               onClick={(event) => {
                                 let newData = event.target.innerText;
@@ -448,8 +386,8 @@ export default function App() {
                               }}
                             />
                           )
-                      )
-                    ) : (
+                      )} 
+                    )) : (
                       <></>
                     )}
                   </CardActions>
@@ -461,31 +399,35 @@ export default function App() {
           <Modal
             open={openModalLang}
             sx={{
-              padding: '50px',
-              marginTop: '1rem',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '2rem'
+              padding: "50px",
+              marginTop: "1rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "2rem",
             }}
-
             onClose={() => setModalVisibleLang(!openModalLang)}
           >
-            <Box sx={{   position: 'relative',
-        width: '80%',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        overflowY: 'hidden',
-        padding: '1rem',
-        borderRadius: '20px',
-        backgroundColor: '#fff',
-        flexDirection: 'column',backgroundColor: theme.palette.background.default }}>
+            <Box
+              sx={{
+                position: "relative",
+                width: "80%",
+                top: "0",
+                left: "0",
+                right: "0",
+                bottom: "0",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflowY: "hidden",
+                padding: "1rem",
+                borderRadius: "20px",
+                backgroundColor: "#fff",
+                flexDirection: "column",
+                backgroundColor: theme.palette.background.default,
+              }}
+            >
               {/* give and title cool to modal and beutiful */}
               <Typography
                 id="modal-modal-title"
@@ -496,19 +438,29 @@ export default function App() {
                 {Translator("Customs", userLang)}
               </Typography>
               {/* create and border rounded background into style form */}
-              <FormControl fullWidth style={{ marginTop: 20, borderRadius: 10, padding:"4px",  backgroundColor:theme.palette.background.paper}}>
-              <InputLabel 
-                  id="changeLang"> {Translator("ChangeLang", userLang) }</InputLabel>
+              <FormControl
+                fullWidth
+                style={{
+                  marginTop: 20,
+                  borderRadius: 10,
+                  padding: "4px",
+                  backgroundColor: theme.palette.background.paper,
+                }}
+              >
+                <InputLabel id="changeLang">
+                  {" "}
+                  {Translator("ChangeLang", userLang)}
+                </InputLabel>
 
                 <Select
                   labelId="changeLang"
                   id="changeLangSelect"
-
-                  label =  {Translator("ChangeLang", userLang) }
+                  label={Translator("ChangeLang", userLang)}
                   onChange={(event) => {
                     setAskInput(answerTitle);
                     setLang(event.target.value);
                     SubmitEvent(event);
+                    sessionStorage.setItem("lang", event.target.value);
                   }}
                   value={userLang.substring(0, 2)}
                 >
@@ -520,14 +472,21 @@ export default function App() {
                     )
                   )}
                 </Select>
-                
-              </FormControl><FormControl style ={{ marginTop:20 , borderRadius: 10, padding:"10px",  backgroundColor:theme.palette.background.paper }} fullWidth>
+              </FormControl>
+              <FormControl
+                style={{
+                  marginTop: 20,
+                  borderRadius: 10,
+                  padding: "10px",
+                  backgroundColor: theme.palette.background.paper,
+                }}
+                fullWidth
+              >
                 <label id="simple-select-label">
                   {Translator("Random", userLang)}
                 </label>
                 <Slider
-                  
-                  label= {Translator("Random", userLang)}
+                  label={Translator("Random", userLang)}
                   defaultValue={temperature}
                   onChange={(event, newValue) => {
                     setTemperature(newValue);
@@ -538,13 +497,24 @@ export default function App() {
                   min={0.1}
                   max={0.9}
                 />
-                </FormControl><FormControl style ={{ marginTop:20, borderRadius: 10, padding:"4px",  backgroundColor:theme.palette.background.paper }}fullWidth>
-                 <InputLabel id="changeTheme"> {Translator("ChangeTheme", userLang) }</InputLabel>
+              </FormControl>
+              <FormControl
+                style={{
+                  marginTop: 20,
+                  borderRadius: 10,
+                  padding: "4px",
+                  backgroundColor: theme.palette.background.paper,
+                }}
+                fullWidth
+              >
+                <InputLabel id="changeTheme">
+                  {" "}
+                  {Translator("ChangeTheme", userLang)}
+                </InputLabel>
                 <Select
-                
-                labelId="changeTheme"
+                  labelId="changeTheme"
                   id="changeThemeSelect"
-                  label =  {Translator("ChangeTheme", userLang) }
+                  label={Translator("ChangeTheme", userLang)}
                   onChange={(event) => {
                     sessionStorage.setItem("theme", event.target.value);
                     setTheme(event.target.value);
@@ -560,7 +530,6 @@ export default function App() {
                   )}
                 </Select>
               </FormControl>
-
             </Box>
           </Modal>
         </Container>

@@ -45,7 +45,8 @@ export default function Translator(value, userLang) {
       Customs: "Personalizações",
       Copy: "Copiar",
       AnotherAsks: "Sugestões de perguntas",
-      suggestions: "Dê outras (minimo de 3, maximo 10) principais perguntas separadas em tópicos por '-' sobre "
+      suggestions: "Dê outras (minimo de 3, maximo 10) principais perguntas separadas em tópicos por '-' sobre ",
+      otherFacts: "Outros assuntos"
     };
     return portuguese[value];
   } else if (userLang.toLowerCase().includes("es")) {
@@ -65,7 +66,8 @@ export default function Translator(value, userLang) {
       Customs: "Personalizaciones",
       Copy: "Copiar",
       AnotherAsks: "Sugerencias de preguntas",
-      suggestions: "Dame otras (mínimo de 3, máximo 10) principales preguntas separadas por '-' sobre "
+      suggestions: "Dame otras (mínimo de 3, máximo 10) principales preguntas separadas por '-' sobre ",
+      otherFacts: "Otros temas"
 
       
 
@@ -89,6 +91,8 @@ export default function Translator(value, userLang) {
       Customs: "Personnalisation",
       AnotherAsks: "Suggestions de questions",
       suggestions: "Donnez d'autres (minimum de 3, maximum 10) principales questions séparées par '-' sur "
+      ,
+      otherFacts: "Autres sujets"
        }
     return french[value];
   } else if (userLang.toLowerCase().includes("de")) {
@@ -108,7 +112,8 @@ export default function Translator(value, userLang) {
       Copy: "Kopieren",
       Customs: "Personalisierungen",
       AnotherAsks: "Vorschläge für Fragen",
-      suggestions: "Geben Sie weitere (mindestens 3, maximal 10) Hauptfragen mit '-' getrennt über "
+      suggestions: "Geben Sie weitere (mindestens 3, maximal 10) Hauptfragen mit '-' getrennt über ",
+      otherFacts: "Andere Themen"
     };
     return german[value];
   } else if (userLang.toLowerCase().includes("it")) {
@@ -128,7 +133,8 @@ export default function Translator(value, userLang) {
       Copy: "Copia",
       Customs: "Personalizzazioni",
       AnotherAsks: "Suggerimenti di domande",
-      suggestions: "Dai altre (minimo 3, massimo 10) domande principali separate da '-' su "
+      suggestions: "Dai altre (minimo 3, massimo 10) domande principali separate da '-' su ",
+      otherFacts: "Altri argomenti"
     };
     return italian[value];
   } else if (userLang.toLowerCase().includes("ru")) {
@@ -148,7 +154,8 @@ export default function Translator(value, userLang) {
       Copy: "Копировать",
       AnotherAsks: "Предложения вопросов",
       Customs: "Настройки",
-      suggestions: "Дайте другие (минимум 3, максимум 10) основные вопросы, разделенные '-' на "
+      suggestions: "Дайте другие (минимум 3, максимум 10) основные вопросы, разделенные '-' на ",
+      otherFacts: "Другие темы"
     };
     return russian[value];
   } else if (userLang.toLowerCase().includes("ja")) {
@@ -168,7 +175,8 @@ export default function Translator(value, userLang) {
       Copy: "コピー",
       AnotherAsks: "質問の提案",
       Customs: "カスタマイズ",
-      suggestions: "他の主要な質問（最小3、最大10）を'-'で区切って入力してください "
+      suggestions: "他の主要な質問（最小3、最大10）を'-'で区切って入力してください ",
+      otherFacts: "その他のトピック"
     };
     return japanese[value];
   } else if (userLang.toLowerCase().includes("zh")) {
@@ -188,7 +196,8 @@ export default function Translator(value, userLang) {
       Copy: "复制",
       Customs: "自定义",
       AnotherAsks: "问题建议",
-      suggestions: "给出其他（最少3个，最多10个）主要问题，用'-'分隔 "
+      suggestions: "给出其他（最少3个，最多10个）主要问题，用'-'分隔 ",
+      otherFacts: "其他主题"
     };
     return chinese[value];
    }
@@ -198,7 +207,7 @@ export default function Translator(value, userLang) {
       placeHolderAsk: "Why is the sky blue?",
       Ask: "Give the answer about this question: ",
       Owl: "Hootin' and tootin' my knowledge around the clock, I'm Quester the Question-Asking Owl. Type a  question to get started!",
-      Title: "Gimme a question, NOW!",
+      Title: "Welcome to Quester",
       Credits: "By Caique Ponjjar",
       Send: "Send",
       Wait: "Wait",
@@ -209,7 +218,8 @@ export default function Translator(value, userLang) {
       Copy: "Copy",
       Customs: "Customizations",
       AnotherAsks: "Questions suggestions",
-      suggestions: "Give other (at least 3, at most 10) main questions separated by '-' about "
+      suggestions: "Give other (at least 3, at most 10) main questions separated by '-' about ",
+      otherFacts: "Other topics"
     };
     return english[value];
   }
