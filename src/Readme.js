@@ -20,25 +20,32 @@ import CardContent from "@mui/material/CardContent";
 import Collapse from "@mui/material/Collapse";
 import SchoolIcon from "@mui/icons-material/School";
 import LinearProgress from "@mui/material/LinearProgress";
-
+import ReactMarkdown from 'react-markdown'
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import Modal from "@mui/material/Modal";
 import {
   Alert,
+  Autocomplete,
   Box,
+  ButtonGroup,
   Chip,
   CircularProgress,
+  Divider,
+  Input,
   InputAdornment,
   InputLabel,
   MenuItem,
   Select,
   Slider,
   Snackbar,
+  Switch,
   Tooltip,
 } from "@mui/material";
 import onSubmit from "./api/Generate";
-import { Edit } from "@mui/icons-material";
+import { Edit, FavoriteRounded, GitHub, Settings } from "@mui/icons-material";
 import themeStyle from "./api/Theme";
 import ResponsiveAppBar from "./Header";
+import { pink } from "@mui/material/colors";
 
 const style = {
   position: "absolute",
@@ -53,7 +60,7 @@ const style = {
   px: 4,
   pb: 3,
 };
-export default function App() {
+export default function Readme() {
   //loading [loading, loadingSuggestions]
   const [loading, setLoading] = useState([false, false]);
   const [result, setResult] = useState();
@@ -61,9 +68,21 @@ export default function App() {
   const [openModalLang, setModalVisibleLang] = useState(false);
   const [temperature, setTemperature] = useState(0.1);
   const [askInput, setAskInput] = useState("");
+  const [askDescInput, setAskDescInput] = useState("");
+  const [openSourcer, setOpenSourcer] = useState("");
+  const [license, setLicense] = useState(null);
   const [answerTitle, setAnswerTitle] = useState("");
+  const [madeBy, setMadeBy] = useState("");
+  const [answerDesc, setAnswerDesc] = useState("");
   const [CopySucess, setCopySucess] = useState(false);
+  const [viewMarkdown, setViewMarkdown] = useState(true);
   const [themeApplyed, setTheme] = useState("light");
+  const [errors, setErrors] = useState({
+    askInput: "",
+    askDescInput: "",
+    madeBy: "",
+  });
+
   if (
     sessionStorage.getItem("theme") != null &&
     sessionStorage.getItem("theme") != themeApplyed
@@ -80,66 +99,46 @@ export default function App() {
       : navigator.language || navigator.userLanguage
   );
 
-  async function SubmitEvent(event, anotherAsk) {
+  async function SubmitEvent(event, anotherAsk, anotherDesc) {
+    if (askInput === "" || askDescInput === "" || madeBy === "") {
+      setErrors({
+        askInput: askInput === "" || askInput == undefined ? Translator("Required", userLang) : "",
+        askDescInput: askDescInput === "" || askDescInput == undefined ? Translator("Required", userLang) : "",
+        madeBy: madeBy === "" || madeBy == undefined? Translator("Required", userLang) : "",
+      });
+      return ;
+    }else {
+      setErrors({
+        askInput: "",
+        askDescInput: "",
+        madeBy: "",
+      });
+    }
     event.preventDefault();
     setLoading([true, true]);
     let loadingSubmit = true;
     const newAsk = anotherAsk != undefined ? anotherAsk : askInput;
+    const newDesc = anotherDesc != undefined ? anotherDesc : askDescInput;
     try {
-      setResult(await onSubmit(newAsk, userLang, temperature));
+      setResult(await onSubmit( newAsk+  ". \n " + newDesc + ". \n " + Translator("ReadmeCredits") +  madeBy + ". \n"+ (license != null && license != "" ? "this project have license. \n" + license : "this project dont have any license. \n")  +  (openSourcer ? "project is openSourcer and accept contributtions" : "not is opensourcer and dont accept contributtions")+ " \n " , userLang, temperature));
     } catch {
       setResult("");
     }
     setLoading([false, true]);
     loadingSubmit = false;
     setAnswerTitle(newAsk);
+    setAnswerDesc(newDesc);
     setAskInput("");
-    if (loadingSubmit === false) {
-      try {
-        setSuggestions(await onSubmit(newAsk, userLang, temperature, true));
-      } catch {
-        console.log("Error on suggestions");
-        setSuggestions("");
-      }
-      console.log("Suggestions: " + suggestions);
-      setLoading([false, false]);
-    }
+    setAskDescInput("");
+    setMadeBy("");
+    setOpenSourcer("");
+  
   }
-
-  React.useEffect(() => {
-    if(
-      window.location.pathname.includes("%20") && !result && suggestions.length < 1
-    ) {
-      SubmitEvent(
-        { preventDefault: () => {} },
-        window.location.pathname.split("/").join(" ").split("%20").join(" ")
-        
-      );
-      setTimeout(() => { 
-        window.history.replaceState({}, document.title, "/");
-
-      }, 1000);
-    }
-    if (!result && suggestions.length < 1) {
-      async function start() {
-        setSuggestions(
-          await onSubmit(
-            Translator("otherFacts", userLang),
-            userLang,
-            0.1,
-            true
-          )
-        );
-      }
-      start();
-    }
-  }, [result, suggestions]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline></CssBaseline>
 
-      <center>
         <ResponsiveAppBar
         theme = {theme}
         userLang = {userLang}
@@ -151,7 +150,7 @@ export default function App() {
           <></>
         )}
         <br />
-        <Container fixed>
+        <Container >
           <Snackbar
             open={CopySucess}
             autoHideDuration={600}
@@ -184,25 +183,35 @@ export default function App() {
               width: "fit-content",
             }}
           >
-            {Translator("Title", userLang)}
+            {Translator("Title", userLang).replace("Quester", "Readmer")}
             <IconButton>
-              <SchoolIcon color="primary"></SchoolIcon>
+              <AssignmentIcon color="primary"></AssignmentIcon>
             </IconButton>
           </Typography>
 
-          <Box
-            component="form"
-            sx={{
+          <Box 
+            component="form" sx={{
+              alignSelf: "center",
               display: "flex",
+              flexDirection: "column",
               padding: "5px",
               alignItems: "center",
-              maxWidth: "85%",
+              justifyContent: "center",
+            }}>
+          <Box
+            sx={{
+              alignSelf: "center",
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              padding: "5px",
+              alignItems: "center", 
             }}
           >
             <TextField
-              id="outlined-multiline-flexible"
-              label={Translator("labelAsk", userLang)}
-              multiline
+              id="Title"
+              label={Translator("readmeAskTitle", userLang)}
+              error={errors.askInput}
               size="large"
               maxRows={10}
               sx={{ ml: 1, flex: 1, marginRight: 0.5 }}
@@ -212,10 +221,24 @@ export default function App() {
               onChange={(e) => {
                 setAskInput(e.target.value);
               }}
-              placeholder={Translator("placeHolderAnswer", userLang)}
-            />
-
-            {loading[0] ? (
+            /> <TextField
+            id="Made by" 
+            size="large"
+            error={errors.madeBy}
+            sx={{flex: 0.5, marginRight:1  ,
+            }}
+            variant="outlined"
+            style={{ backgroundColor: theme.palette.background.paper }}
+            value={ madeBy}
+            label={Translator("ReadmeCredits", userLang)}
+            onChange={(e) => {
+              setMadeBy(e.target.value);
+            }}
+            placeholder={ ["Jhon Doe", "Caique", "Diogo", "Julia", "Maria", "João", "Pedro", "Paulo", "Carlos", "Ana", "Carla", "Cristina", "Cristian"] [Math.floor(Math.random() * 12)] + " & " + 
+           ["Jhon Doe", "Caique", "Diogo", "Julia", "Maria", "João", "Pedro", "Paulo", "Carlos", "Ana", "Carla", "Cristina", "Cristian"] [Math.floor(Math.random() * 12)] 
+          }
+          />
+             {loading[0] ? (
               <Button
                 variant="contained"
                 disabled={true}
@@ -227,21 +250,234 @@ export default function App() {
               </Button>
             ) : (
               <Button
+              type = "submit"
                 variant="contained"
                 style={{ height: 56 }}
                 size="large"
-                onClick={SubmitEvent}
-                onSubmit={onSubmit}
+                onClick={(e) => {
+                  e.preventDefault();
+                  
+                  SubmitEvent(e);}}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onSubmit(e);
+                }}
                 startIcon={<QuestionAnswerIcon />}
               >
                 {Translator("Send", userLang)}
               </Button>
             )}
+       
           </Box>
+              
+                <TextField
+              id="Description"
+              error={errors.askDescInput}
+              label={Translator("readmeAskDesc", userLang)}
+              multiline
+              size="large"
+              minRows={3}
+              maxRows={10}
+              sx={{ m: 1, flex: 1,
+                width: "97.5%", 
+
+              }}
+              variant="outlined"
+              style={{ backgroundColor: theme.palette.background.paper }}
+              value={askDescInput}
+              onChange={(e) => {
+                setAskDescInput(e.target.value);
+                
+              }}
+              placeholder={Translator("placeHolderAnswer", userLang)}
+            />
+            <Box sx={{
+              alignSelf: "right",
+              display: "flex",
+              flexDirection: "row",
+              padding: "5px",
+              alignItems: "right",
+              width: "100%",
+              justifyContent: "right",
+
+            }}>
+            <Switch checked = {openSourcer} onChange = {() => {
+              setOpenSourcer(!openSourcer);
+            }}
+            color="warning"
+            checkedIcon = {<FavoriteRounded ></FavoriteRounded>} 
+            ></Switch>
+            <Typography variant = "subtitle1" sx = {{padding: "5px"}}> openSource</Typography>
+            <Switch checked = {license != null} onChange = {() => {
+              setLicense(license != null ? null : "");
+            }}
+            checkedIcon = { <AssignmentIcon/>} 
+            
+            color =  "warning"
+            
+            ></Switch>
+            
+  <Collapse in = {license == null} timeout = {300} collapsedSize = {0}
+              mountOnEnter unmountOnExit
+              orientation="horizontal"
+  >
+            <Typography variant = "subtitle1" sx = {{padding: "5px"}}> License</Typography>
+            </Collapse>
+            <Collapse in = {license != null} timeout = {300} collapsedSize = {0}
+             mountOnEnter unmountOnExit
+             orientation="horizontal"
+            
+            >
+            <FormControl sx = {{width: "100%"}}>
+              
+             
+            <Autocomplete
+            id="combo-box-demo"
+            options={
+              [
+                "MIT",
+                "Apache-2.0",
+                "GPL-2.0",
+                "GPL-3.0",
+                "BSD-3-Clause",
+                "BSD-2-Clause",
+                "LGPL-3.0",
+                "MPL-2.0",
+                "AGPL-3.0",
+                "CC0-1.0",
+                "EPL-2.0",
+                "CDDL-1.0",
+                "CPL-1.0",
+                "ECL-2.0",
+                "IPL-1.0",
+                "ISC",
+                "LPPL-1.3c",
+                "MS-PL",
+                "NCSA",
+                "ODbL-1.0",
+                "PDDL-1.0",
+                "WTFPL",
+                "Zlib",
+                // github licenses:
+                "AFL-3.0",
+                "AGPL-3.0-only",
+                "AGPL-3.0-or-later",
+                "APL-1.0",
+                "Artistic-2.0",
+                "BSL-1.0",
+                "CATOSL-1.1",
+                "CC-BY-4.0",
+                "CC-BY-SA-4.0",
+                "CC-BY-NC-4.0",
+                "CC-BY-NC-SA-4.0",
+                "CC-BY-NC-ND-4.0",
+                "CC-BY-ND-4.0",
+                "CC0-1.0",
+                "CDDL-1.1",
+                "CECILL-2.1",
+                "CERN-OHL-1.2",
+                "CERN-OHL-P-2.0",
+                "CERN-OHL-S-2.0",
+                "CERN-OHL-W-2.0",
+                "ClArtistic",
+                "CNRI-Python",
+                "CPAL-1.0",
+                "CPL-1.0",
+                "CUA-OPL-1.0",
+                "ECL-2.0",
+                "EFL-2.0",
+                "EPL-1.0",
+                "EPL-2.0",
+                "EUPL-1.1",
+                "EUPL-1.2",
+                "Fair",
+                "Frameworx-1.0",
+                "FTL",
+                "GFDL-1.1-only",
+                "GFDL-1.1-or-later",
+                "GFDL-1.2-only",
+                "GFDL-1.2-or-later",
+                "GFDL-1.3-only",
+                "GFDL-1.3-or-later",
+                "Giftware",
+                "GL2PS",
+                "Glide",
+                "Glulxe",
+                "HPND",
+                "IBM-pibs",
+                "ICU",
+                "IJG",
+                "IPA",
+                "IPL-1.0",
+                "ISC",
+                "LAL-1.3",
+                "LGPL-2.0-only",
+                "LGPL-2.0-or-later",
+
+                "LGPL-2.1-only",
+                "LGPL-2.1-or-later",
+                "LGPL-3.0-only",
+                "LGPL-3.0-or-later",
+                "LGPLLR",
+                "Libpng",
+                "libselinux-1.0",
+                "libtiff",
+
+                "LiLiQ-P-1.1",
+                "LiLiQ-R-1.1",
+                "LiLiQ-Rplus-1.1",
+                "LPL-1.02",
+                "LPPL-1.0",
+                "LPPL-1.1",
+                "LPPL-1.2",
+
+                "LPPL-1.3a",
+                "LPPL-1.3c",
+                "MakeIndex",
+                "MirOS",
+                "MIT-0",
+
+              ]
+
+            }
+            getOptionLabel={(option) => option}
+            style={{ 
+                borderRadius: "10px",
+                backgroundColor: theme.palette.background.paper,
+                padding: "10px",
+                marginTop: "10px",
+                marginBottom: "10px",
+                width: "200px",
+            }}
+            renderInput={(params) => <TextField {...params} label="License" variant="outlined" />}
+            value = {license}
+            onChange = {(e, value) => {
+              setLicense(value);
+            }}
+          />
+          
+          </FormControl>
+            </Collapse>
+             
+                <IconButton color="primary"  
+                sx = {{
+                  height: "fit-content",
+
+                }}
+                onClick={() => setModalVisibleLang(!openModalLang)}>
+                  <Settings />
+                </IconButton>
+
+
+            </Box>
+           </Box>
 
           <Collapse
             style={{ marginTop: 3 }}
-            in={!loading[0]}
+            in={!loading[0] && 
+              answerTitle.length > 0 &&
+              answerDesc.length > 0
+            }
             enter={300}
             timeout={300}
             collapsedSize={0}
@@ -253,8 +489,20 @@ export default function App() {
                     <Typography
                       gutterBottom
                       variant="h6"
+                      sx =  {
+                        {
+                          
+                          justifyContent: "center",
+                          alignItems: "center",
+                          display: "flex",
+                          flexDirection: "row",
+                          flexWrap: "wrap",
+                        }
+                      }
                       onClick={() => {
                         setAskInput(answerTitle);
+                        setAskDescInput(answerDesc);
+                        
                       }}
                     >
                       {answerTitle[0].toUpperCase() +
@@ -263,19 +511,59 @@ export default function App() {
                         {" "}
                         <Edit />
                       </IconButton>{" "}
+                    </Typography> <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      sx =  {
+                        {
+                          
+                          justifyContent: "center",
+                          alignItems: "center",
+                          display: "flex",
+                          flexDirection: "row",
+                          flexWrap: "wrap",
+                        }
+                      }
+                      onClick={() => {
+                        setAskInput(answerTitle);
+                        setAskDescInput(answerDesc);
+                      }}
+                    >
+                      {answerDesc[0].toUpperCase() +
+                        answerDesc.slice(1).toLowerCase()}
+                        
                     </Typography>
                   </>
                 ) : (
                   <></>
                 )}
+                <ButtonGroup 
+                sx =  {
+                {
+                    // show in the end
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
 
+
+                }
+                }
+                 aria-label="outlined primary button group">
+                  <Button onClick={ () => {setViewMarkdown(!viewMarkdown)}} variant={viewMarkdown ? "contained" : "outlined"}
+                  >Github</Button>
+                  <Button onClick={ () => {setViewMarkdown(!viewMarkdown)}} variant={!viewMarkdown ? "contained" : "outlined"}>Raw</Button>
+                </ButtonGroup>
+              <Divider/>
                 {result ? (
                   <>
+                  {!viewMarkdown ? (
                     <Tooltip
                       placement="bottom"
                       title={Translator("Copy", userLang)}
                     >
-                      <TextField
+                       <TextField
                         align="justify"
                         multiline
                         fullWidth
@@ -298,26 +586,15 @@ export default function App() {
                           setCopySucess(true);
                         }}
                         blocked
-                      />
-                    </Tooltip>
+                      /> 
+                      </Tooltip>):(
+                      <ReactMarkdown>
+                        {result }
+                      </ReactMarkdown>)}
                   </>
                 ) : (
-                  <div>
-                    <p align="left">
-                      <img
-                        style={{
-                          borderRadius: "50%",
-                          float: "Left",
-                          padding: "0 20px 0 0",
-                        }}
-                        src={process.env.PUBLIC_URL + "/OwlMaskotDallE.png"}
-                        width={"105em"}
-                        align="middle"
-                      />
-                      {Translator("Owl", userLang)}
-                      <br />
-                    </p>{" "}
-                  </div>
+                <></>
+
                 )}
               </CardContent>
               <CardActions style={{ display: "block", float: "right" }}>
@@ -331,92 +608,10 @@ export default function App() {
                       "https://github.com/Caique-P/Quester")
                   }
                 />
-                <Chip
-                  size="small"
-                  variant="outlined"
-                  color="success"
-                  label={Translator("lang", userLang)}
-                  onClick={() => setModalVisibleLang(!openModalLang)}
-                />
-
-                <Chip
-                  size="small"
-                  variant="outlined"
-                  color="warning"
-                  label={themeApplyed}
-                  onClick={() => setModalVisibleLang(!openModalLang)}
-                />
-                <Chip
-                  size="small"
-                  variant="outlined"
-                  color="error"
-                  label={Translator("Random", userLang) + " " + temperature}
-                  onClick={() => setModalVisibleLang(!openModalLang)}
-                />
+             
               </CardActions>
             </Card>
-            {/* Card de sugestões de perguntas */}
-            {loading[1] && suggestions.length > 1 && (
-              <Skeleton
-                variant="rectangular"
-                style={{ marginTop: 3 }}
-                height={5}
-              />
-            )}
-            <Collapse
-              style={{ marginTop: 3 }}
-              in={!loading[1] && suggestions.length > 1}
-              enter={300}
-              timeout={300}
-              collapsedSize={0}
-            >
-              <Card sx={{ marginTop: "10px" }}>
-                <CardContent>
-                  <Typography gutterBottom variant="h6">
-                    {Translator("AnotherAsks", userLang)}
-                  </Typography>
-
-                  <CardActions style={{ display: "block" }}>
-                    {suggestions ? (
-                      suggestions.map((suggestion, index) => {
-                        let color = [
-                          "secondary",
-
-                          "error",
-                          "primary",
-                          "warning",
-                          "info",
-                          "success",
-                          "default",
-                        ][index % 7];
-                        return (
-                          suggestion.trim() != "" && (
-                            <Chip
-                              size="large"
-                              variant="outlined"
-                              color={color}
-                              label={suggestion}
-                              onClick={(event) => {
-                                let newData = event.target.innerText;
-                                for (let i = 0; i < 3; i++) {
-                                  if (newData.split("\n")[0] === "") {
-                                    newData = newData.slice(1);
-                                  }
-                                }
-                                setAskInput(newData);
-                                SubmitEvent(event, newData);
-                              }}
-                            />
-                          )
-                        );
-                      })
-                    ) : (
-                      <></>
-                    )}
-                  </CardActions>
-                </CardContent>
-              </Card>
-            </Collapse>
+        
           </Collapse>
           {/* Round modal styled */}
           <Modal
@@ -556,7 +751,10 @@ export default function App() {
             </Box>
           </Modal>
         </Container>
-      </center>
+ 
     </ThemeProvider>
   );
+
+  
+  
 }

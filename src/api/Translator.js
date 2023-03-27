@@ -1,4 +1,7 @@
 export default function Translator(value, userLang) {
+  if ( userLang === undefined) {
+    userLang = "en";
+  }
   if (value === "lang") {
     return userLang;
   }  if (userLang === null) {
@@ -31,6 +34,8 @@ export default function Translator(value, userLang) {
   else if (userLang.toLowerCase().includes("pt")) {
     const portuguese = {
       labelAsk: "Qual é a sua pergunta?",
+      tabs: ["Pergunte-me algo", "Fatos aleatórios", "Criar readme", "Saiba mais"],
+
       placeHolderAsk: "Por que o céu é azul?",
       Ask: "Dê a resposta para esta pergunta: ",
       Owl: "Uilando e assobiando meu conhecimento ao longo do dia, eu sou a Sabichona, a Coruja Questionadora. Digite uma pergunta para começar!",
@@ -46,16 +51,25 @@ export default function Translator(value, userLang) {
       Copy: "Copiar",
       AnotherAsks: "Sugestões de perguntas",
       suggestions: "Dê outras (minimo de 3, maximo 10) principais perguntas separadas em tópicos por '-' sobre ",
-      otherFacts: "Outros assuntos"
+      otherFacts: "Outros assuntos",
+
+      //Readme
+      readmeAskTitle : "Qual é o titulo do seu projeto?",
+      readmeAskDesc : "Qual é a descrição do seu projeto?",
+      ReadmeCredits: "Feito por  ",
+      Required: "Prencha este campo",
+      readmeAsk : "Crie um arquivo README.md para o projeto com uma descrição e titulo melhorada. O readme deve ser intuitivo, com uma longa descrição separada por tópicos e com um titulo customizado, com labels das linguagens usadas no projeto. utilize os dados abaixos: ",
+      
     };
     return portuguese[value];
   } else if (userLang.toLowerCase().includes("es")) {
     const spanish = {
       labelAsk: "¿Cuál es tu pregunta?",
+      tabs: ["Pregúntame algo", "Hechos aleatorios", "Crear readme para el proyecto", "Saber más"],
       placeHolderAsk: "¿Por qué el cielo es azul?",
       Ask: "Dame la respuesta sobre esta pregunta: ",
       Owl: "Uilando y asustando mi conocimiento a lo largo del día, soy Quester, el búho preguntón. ¡Escribe una pregunta para comenzar!",
-      Title: "¡Dame una pregunta, AHORA!",
+      Title:  "Bienvenido a Quester",
       Send: "Enviar",
       Wait: "Espere",
       Credits: "Hecho por Caique Ponjjar",
@@ -67,7 +81,12 @@ export default function Translator(value, userLang) {
       Copy: "Copiar",
       AnotherAsks: "Sugerencias de preguntas",
       suggestions: "Dame otras (mínimo de 3, máximo 10) principales preguntas separadas por '-' sobre ",
-      otherFacts: "Otros temas"
+      otherFacts: "Otros temas",
+      readmeAskTitle: "¿Cuál es el nombre de tu proyecto?",
+      Required: "Rellena este campo",
+      readmeAskDesc: "¿Cuál es la descripción de tu proyecto?",
+      ReadmeCredits: "Hecho por ",
+      readmeAsk: "Crea un archivo README.md para el proyecto con la respectiva descripción y título. El readme debe ser intuitivo, con una buena descripción separada por temas y con un título personalizado, con etiquetas de los lenguajes usados en el proyecto."
 
       
 
@@ -76,10 +95,11 @@ export default function Translator(value, userLang) {
   } else if (userLang.toLowerCase().includes("fr")) {
     const french = {
       labelAsk: "Quelle est ta question?",
+      tabs: ["Demandez-moi quelque chose", "Faits aléatoires", "Créer un readme pour le projet", "En savoir plus"],
       placeHolderAsk: "Pourquoi le ciel est bleu?",
       Ask: "Donnez la réponse à cette question: ",
       Owl: "Uilando et asustando mon savoir tout au long de la journée, je suis Quester, la chouette qui pose des questions. Tapez une question pour commencer!",
-      Title: "Donne-moi une question, MAINTENANT!",
+      Title:  "Bienvenue à Quester",
       Send: "Envoyer",
       Wait: "Attendez",
       Credits: "Fait par Caique Ponjjar",
@@ -92,16 +112,24 @@ export default function Translator(value, userLang) {
       AnotherAsks: "Suggestions de questions",
       suggestions: "Donnez d'autres (minimum de 3, maximum 10) principales questions séparées par '-' sur "
       ,
+      Required:  "Remplissez ce champ",
+
       otherFacts: "Autres sujets"
-       }
+      ,readmeAskTitle : "Quel est le nom de votre projet?",  
+      readmeAskDesc : "Quelle est la description de votre projet?",
+      ReadmeCredits: "Fait par ",
+      readmeAsk : "Créez un fichier README.md pour le projet avec la description et le titre respectifs. Le readme doit être intuitif, avec une bonne description séparée par des sujets et un titre personnalisé, avec des étiquettes des langages utilisés dans le projet."
+    }
+
     return french[value];
   } else if (userLang.toLowerCase().includes("de")) {
     const german = {
       labelAsk: "Was ist deine Frage?",
+      tabs: ["Frag mich etwas", "Zufällige Fakten", "Erstellen Sie eine Readme für das Projekt", "Mehr erfahren"],
       placeHolderAsk: "Warum ist der Himmel blau?",
       Ask: "Geben Sie die Antwort auf diese Frage: ",
       Owl: "Uilando und erschreckend mein Wissen den ganzen Tag lang, bin ich Quester, der Frage stellende Eule. Tippen Sie eine Frage ein, um zu beginnen!",
-      Title: "Gib mir eine Frage, JETZT!",
+      Title:  "Willkommen bei Quester",
       Send: "Senden",
       Wait: "Warten",
       Credits: "Gemacht von Caique Ponjjar",
@@ -113,16 +141,23 @@ export default function Translator(value, userLang) {
       Customs: "Personalisierungen",
       AnotherAsks: "Vorschläge für Fragen",
       suggestions: "Geben Sie weitere (mindestens 3, maximal 10) Hauptfragen mit '-' getrennt über ",
+      Required: "Füllen Sie dieses Feld aus",
       otherFacts: "Andere Themen"
+      ,readmeAskTitle : "Wie lautet der Name deines Projekts?", 
+      readmeAskDesc : "Was ist die Beschreibung deines Projekts?",
+      ReadmeCredits: "Gemacht von ",
+      readmeAsk : "Erstellen Sie eine Datei README.md für das Projekt mit der jeweiligen Beschreibung und dem Titel. Die Readme sollte intuitiv sein, mit einer guten Beschreibung, die in Themen unterteilt ist, und mit einem benutzerdefinierten Titel, mit Labels der in dem Projekt verwendeten Sprachen."
     };
     return german[value];
   } else if (userLang.toLowerCase().includes("it")) {
     const italian = {
       labelAsk: "Qual è la tua domanda?",
+      tabs: ["Chiedimi qualcosa", "Fatti casuali", "Crea readme per il progetto", "Saperne di più"],
+
       placeHolderAsk: "Perché il cielo è blu?",
       Ask: "Dai la risposta a questa domanda: ",
       Owl: "Uilando e spaventando la mia conoscenza durante tutto il giorno, sono Quester, la civetta che fa domande. Scrivi una domanda per iniziare!",
-      Title: "Dammela una domanda, ORA!",
+      Title:    "Benvenuto a Quester",
       Send: "Inviare",
       Wait: "Aspetta",
       Credits: "Fatto da Caique Ponjjar",
@@ -134,16 +169,22 @@ export default function Translator(value, userLang) {
       Customs: "Personalizzazioni",
       AnotherAsks: "Suggerimenti di domande",
       suggestions: "Dai altre (minimo 3, massimo 10) domande principali separate da '-' su ",
+      Required: "Compila questo campo",
       otherFacts: "Altri argomenti"
+      ,readmeAskTitle : "Qual è il nome del tuo progetto?",
+      readmeAskDesc : "Qual è la descrizione del tuo progetto?",
+      ReadmeCredits: "Fatto da ",
+      readmeAsk : "Crea un file README.md per il progetto con la descrizione e il titolo rispettivi. Il readme deve essere intuitivo, con una buona descrizione suddivisa per argomenti e un titolo personalizzato, con etichette dei linguaggi utilizzati nel progetto."
     };
     return italian[value];
   } else if (userLang.toLowerCase().includes("ru")) {
     const russian = {
       labelAsk: "Какой у тебя вопрос?",
+      tabs: ["Спроси меня что-нибудь", "Случайные факты", "Создать readme для проекта", "Узнать больше"],
       placeHolderAsk: "Почему небо синее?",
       Ask: "Дайте ответ на этот вопрос: ",
       Owl: " пугая мои знания в течение всего дня, я Quester, сова, которая задает вопросы. Напишите вопрос, чтобы начать!",
-      Title: "Дай мне вопрос, СЕЙЧАС!",
+      Title:  "Добро пожаловать в Quester",
       Send: "Отправить",
       Wait: "Подождите",
       Credits: "Сделано Caique Ponjjar",
@@ -155,16 +196,23 @@ export default function Translator(value, userLang) {
       AnotherAsks: "Предложения вопросов",
       Customs: "Настройки",
       suggestions: "Дайте другие (минимум 3, максимум 10) основные вопросы, разделенные '-' на ",
+      Required: "Заполните это поле",
       otherFacts: "Другие темы"
+      ,readmeAskTitle : "Как называется ваш проект?",
+      readmeAskDesc : "Каково описание вашего проекта?",
+      ReadmeCredits: "Сделано ",
+      readmeAsk : "Создайте файл README.md для проекта с соответствующим описанием и названием. Readme должен быть интуитивным, с хорошим описанием, разделенным на темы, и с настраиваемым названием, с метками языков, используемых в проекте."
+
     };
     return russian[value];
   } else if (userLang.toLowerCase().includes("ja")) {
     const japanese = {
       labelAsk: "あなたの質問は何ですか？",
+      tabs: ["何かを尋ねる", "ランダムな事実", "プロジェクトのreadmeを作成する", "もっと詳しく"],
       placeHolderAsk: "なぜ空は青いのですか？",
       Ask: "この質問についての答えをください： ",
       Owl: "私はQuester、質問をするフクロウです。質問を入力して始めてください！",
-      Title: "今すぐ私に質問を与えてください！",
+      Title:  "Questerへようこそ",
       Send: "送信",
       Wait: "待って",
       Credits: "Caique Ponjjarによって作られた",
@@ -176,16 +224,22 @@ export default function Translator(value, userLang) {
       AnotherAsks: "質問の提案",
       Customs: "カスタマイズ",
       suggestions: "他の主要な質問（最小3、最大10）を'-'で区切って入力してください ",
+      Required: "このフィールドを入力してください",
       otherFacts: "その他のトピック"
+      ,readmeAskTitle : "あなたのプロジェクトの名前は何ですか？",
+      readmeAskDesc : "あなたのプロジェクトの説明は何ですか？",
+      ReadmeCredits: "によって作られた ",
+      readmeAsk : "プロジェクトのREADME.mdファイルを作成し、それに対応する説明とタイトルを入力します。 Readmeは直感的で、良い説明でトピックごとに分割され、カスタマイズ可能なタイトルで、プロジェクトで使用される言語のタグを持っている必要があります。"
     };
     return japanese[value];
   } else if (userLang.toLowerCase().includes("zh")) {
     const chinese = {
       labelAsk: "你的问题是什么？",
+      tabs: ["问我点什么", "随机事实", "创建项目的readme", "了解更多"],
       placeHolderAsk: "为什么天空是蓝色的？",
       Ask: "给出这个问题的答案： ",
       Owl: "我是Quester，提问的猫头鹰。输入一个问题开始吧！",
-      Title: "现在给我一个问题！",
+      Title:  "欢迎来到Quester",
       Send: "发送",
       Wait: "等待",
       Credits: "由Caique Ponjjar制作",
@@ -197,17 +251,23 @@ export default function Translator(value, userLang) {
       Customs: "自定义",
       AnotherAsks: "问题建议",
       suggestions: "给出其他（最少3个，最多10个）主要问题，用'-'分隔 ",
+      Required: "请填写此字段",
       otherFacts: "其他主题"
+      ,readmeAskTitle : "你的项目叫什么名字？",
+      readmeAskDesc : "你的项目描述是什么？",
+      ReadmeCredits: "由 ",
+      readmeAsk : "创建一个README.md文件，用相应的描述和标题。 Readme应该是直观的，有一个良好的描述，分成主题，并且有一个可自定义的标题，带有项目使用的语言标签。"
     };
     return chinese[value];
    }
   else {
     const english = {
       labelAsk: "What's your question?",
+      tabs: ["Ask me something", "Random facts", "Create a project's readme", "Learn more"],
       placeHolderAsk: "Why is the sky blue?",
       Ask: "Give the answer about this question: ",
       Owl: "Hootin' and tootin' my knowledge around the clock, I'm Quester the Question-Asking Owl. Type a  question to get started!",
-      Title: "Welcome to Quester",
+      Title:  "Welcome to Quester",
       Credits: "By Caique Ponjjar",
       Send: "Send",
       Wait: "Wait",
@@ -219,7 +279,13 @@ export default function Translator(value, userLang) {
       Customs: "Customizations",
       AnotherAsks: "Questions suggestions",
       suggestions: "Give other (at least 3, at most 10) main questions separated by '-' about ",
+      Required: "This field is required",
       otherFacts: "Other topics"
+      ,readmeAskTitle : "What's the name of your project?",
+      
+      readmeAskDesc : "What's the description of your project?",
+      ReadmeCredits: "Made by ",
+      readmeAsk : "Create a README.md file for the project with the corresponding description and title. Readme should be intuitive, with a good description, split into topics, and with a customizable title, with language tags used in the project."
     };
     return english[value];
   }

@@ -9,10 +9,17 @@ const DEFAULT_PARAMS = {
 };
 
 function generatePrompt(ask, userLang) {
+  if (window.location.pathname != "/readme") {
   const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
   return `${Translator("Ask", userLang)}:
 ${ask}
 `;
+
+} else {
+  return `${Translator("readmeAsk", userLang)}:
+${ask}
+`;
+}
 }
 function generateSuggestions(ask, userLang) {
   const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
@@ -33,7 +40,7 @@ export default async function onSubmit(askInput, userLang, temperature, suggesti
     },
     body: JSON.stringify({
       ...DEFAULT_PARAMS,
-      prompt: suggestions == undefined? generatePrompt(askInput,userLang) : generateSuggestions(askInput,userLang)
+      prompt: suggestions === undefined? generatePrompt(askInput,userLang) : generateSuggestions(askInput,userLang)
     }),
   };
   const response = await fetch(
