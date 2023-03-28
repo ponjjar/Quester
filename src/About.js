@@ -34,18 +34,18 @@ export default function About() {
 
   const [themeApplyed, setTheme] = useState("light");
   if (
-    sessionStorage.getItem("theme") != null &&
-    sessionStorage.getItem("theme") != themeApplyed
+    localStorage.getItem("theme") != null &&
+    localStorage.getItem("theme") != themeApplyed
   ) {
-    setTheme(sessionStorage.getItem("theme"));
-  } else if (sessionStorage.getItem("theme") === null) {
-    sessionStorage.setItem("theme", themeApplyed);
+    setTheme(localStorage.getItem("theme"));
+  } else if (localStorage.getItem("theme") === null) {
+    localStorage.setItem("theme", themeApplyed);
   }
   const theme = themeStyle(themeApplyed);
 
     const [userLang, setLang] = useState(
-        sessionStorage.getItem("lang") != null
-          ? sessionStorage.getItem("lang")
+        localStorage.getItem("lang") != null
+          ? localStorage.getItem("lang")
           : navigator.language || navigator.userLanguage
       );
  //show github readme in ReactMarkdown

@@ -72,7 +72,7 @@ export default function Readme() {
   const [openSourcer, setOpenSourcer] = useState("");
   const [license, setLicense] = useState(null);
   const [answerTitle, setAnswerTitle] = useState("");
-  const [madeBy, setMadeBy] = useState("");
+  const [madeBy, setMadeBy] = useState(localStorage.getItem("username") != null ? localStorage.getItem("username") : "");
   const [answerDesc, setAnswerDesc] = useState("");
   const [CopySucess, setCopySucess] = useState(false);
   const [viewMarkdown, setViewMarkdown] = useState(true);
@@ -84,18 +84,18 @@ export default function Readme() {
   });
 
   if (
-    sessionStorage.getItem("theme") != null &&
-    sessionStorage.getItem("theme") != themeApplyed
+    localStorage.getItem("theme") != null &&
+    localStorage.getItem("theme") != themeApplyed
   ) {
-    setTheme(sessionStorage.getItem("theme"));
-  } else if (sessionStorage.getItem("theme") === null) {
-    sessionStorage.setItem("theme", themeApplyed);
+    setTheme(localStorage.getItem("theme"));
+  } else if (localStorage.getItem("theme") === null) {
+    localStorage.setItem("theme", themeApplyed);
   }
   const theme = themeStyle(themeApplyed);
 
   const [userLang, setLang] = useState(
-    sessionStorage.getItem("lang") != null
-      ? sessionStorage.getItem("lang")
+    localStorage.getItem("lang") != null
+      ? localStorage.getItem("lang")
       : navigator.language || navigator.userLanguage
   );
 
@@ -678,7 +678,7 @@ export default function Readme() {
                     setAskInput(answerTitle);
                     setLang(event.target.value);
                     SubmitEvent(event);
-                    sessionStorage.setItem("lang", event.target.value);
+                    localStorage.setItem("lang", event.target.value);
                   }}
                   value={userLang.substring(0, 2)}
                 >
@@ -734,7 +734,7 @@ export default function Readme() {
                   id="changeThemeSelect"
                   label={Translator("ChangeTheme", userLang)}
                   onChange={(event) => {
-                    sessionStorage.setItem("theme", event.target.value);
+                    localStorage.setItem("theme", event.target.value);
                     setTheme(event.target.value);
                   }}
                   value={themeApplyed}

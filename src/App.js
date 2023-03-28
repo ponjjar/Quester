@@ -65,18 +65,18 @@ export default function App() {
   const [CopySucess, setCopySucess] = useState(false);
   const [themeApplyed, setTheme] = useState("light");
   if (
-    sessionStorage.getItem("theme") != null &&
-    sessionStorage.getItem("theme") != themeApplyed
+    localStorage.getItem("theme") != null &&
+    localStorage.getItem("theme") != themeApplyed
   ) {
-    setTheme(sessionStorage.getItem("theme"));
-  } else if (sessionStorage.getItem("theme") === null) {
-    sessionStorage.setItem("theme", themeApplyed);
+    setTheme(localStorage.getItem("theme"));
+  } else if (localStorage.getItem("theme") === null) {
+    localStorage.setItem("theme", themeApplyed);
   }
   const theme = themeStyle(themeApplyed);
 
   const [userLang, setLang] = useState(
-    sessionStorage.getItem("lang") != null
-      ? sessionStorage.getItem("lang")
+    localStorage.getItem("lang") != null
+      ? localStorage.getItem("lang")
       : navigator.language || navigator.userLanguage
   );
 
@@ -483,7 +483,7 @@ export default function App() {
                     setAskInput(answerTitle);
                     setLang(event.target.value);
                     SubmitEvent(event);
-                    sessionStorage.setItem("lang", event.target.value);
+                    localStorage.setItem("lang", event.target.value);
                   }}
                   value={userLang.substring(0, 2)}
                 >
@@ -539,7 +539,7 @@ export default function App() {
                   id="changeThemeSelect"
                   label={Translator("ChangeTheme", userLang)}
                   onChange={(event) => {
-                    sessionStorage.setItem("theme", event.target.value);
+                    localStorage.setItem("theme", event.target.value);
                     setTheme(event.target.value);
                   }}
                   value={themeApplyed}

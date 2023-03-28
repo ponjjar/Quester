@@ -14,11 +14,35 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import themeStyle from './api/Theme';
 import Translator from './api/Translator';
- 
+import { Collapse, FormControl, Icon, Input, InputAdornment, Modal, TextField } from '@mui/material';
+import { PhotoCamera } from '@mui/icons-material';
+import { width } from '@mui/system';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 
 function ResponsiveAppBar(props) {
     const userLang = props.userLang == undefined? 'en' : props.userLang;
+    const settings = [Translator('profile', userLang), Translator('logout', userLang)];
+    const [configsMenu, setConfigsMenu] = React.useState(false);
+    const [userName, setUsername] = React.useState(null);
+    const [userAvatar, setAvatar] = React.useState(null);
+    if (
+      localStorage.getItem("avatar") != null &&
+      userAvatar == null
+    ) {  
+        setAvatar( localStorage.getItem("avatar")); 
+    } else if (localStorage.getItem("avatar") === null && userAvatar != null) {
+      
+      localStorage.setItem("avatar", userAvatar);
+    }
+    if (
+      localStorage.getItem("username") != null &&
+      userName == null
+    ) {
+      setUsername(localStorage.getItem("username"));
+    } else if (localStorage.getItem("username") === null && userName != null) {
+      localStorage.setItem("username", userName);
+    }
     
     const pages = Translator('tabs',userLang);
     
@@ -49,6 +73,7 @@ function ResponsiveAppBar(props) {
     };
   
     return (
+      <>
       <AppBar
       style={ 
         {
@@ -115,9 +140,17 @@ function ResponsiveAppBar(props) {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                {pages.map((page, index) => (
+                  <MenuItem key={page} onClick={
+                    (e) => {
+                    handleCloseNavMenu(e);
+                    // navigate to index moveto
+                    window.location.replace(moveTo[index]);
+                  
+                  }}                  
+                  
+                  >
+                    <Typography textAlign="center">{page }</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -140,24 +173,170 @@ function ResponsiveAppBar(props) {
             >
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((
-                page, index) => (
+              {pages.map((page, index) => (
                 <Button
                   key={page}
-                  onClick={handleCloseNavMenu}
                   href={moveTo[index]}
+                  onClick={
+                    (e) => {
+                    handleCloseNavMenu(e); 
+                  }} 
                   
                   sx={{ my: 2, color: 'white', display: 'block', borderBottom: '2px solid transparent', '&:hover': { borderBottom: '2px solid white' }, marginRight: '10px' }}
                 >
-                  {page}
+                  {page } 
                 </Button>
               ))}
             </Box>
   
-            
+            <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title= {Translator('openSettings', userLang)}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt={userName} src={userAvatar}/>
+              </IconButton>
+            </Tooltip>
+           
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting, index) => (
+                <MenuItem key={setting} onClick={
+                  (e) => {
+                  handleCloseUserMenu(e)
+                   if(index == 0){
+                     setConfigsMenu(true);
+                   }else if(index == 1){
+                    
+                    localStorage.setItem('avatar', null);
+                    localStorage.setItem('userName', null);
+                    localStorage.clear();
+                    setAvatar(null);
+                    setUsername(null);
+                    } 
+                  }
+                }>
+                  <Typography textAlign="center">
+                    {setting }
+                    </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <Collapse in={configsMenu && userName != null} orientation="horizontal">
+          <Typography sx={{ display: { xs: 'none', md: 'flex', marginLeft: '10px' }, backgroundColor:"#2933476c" , paddingLeft: '4px', paddingRight:'4px', borderRadius:"20px"}} variant="subtitle1" noWrap component="div">
+              {userName}
+            </Typography>
+            </Collapse> 
           </Toolbar>
         </Container>
       </AppBar>
+      <Modal
+            open={configsMenu}
+            sx={{
+              padding: "50px",
+              marginTop: "1rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "2rem",
+            }}
+            key = "change settings (username + avatar)"
+            onClose={() => setConfigsMenu(!configsMenu)}
+          >
+            <Box
+              sx={{
+                position: "relative",
+                width: "80%",
+                top: "0",
+                left: "0",
+                right: "0",
+                bottom: "0",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflowY: "hidden",
+                padding: "1rem",
+                borderRadius: "20px", 
+                flexDirection: "column",
+                backgroundColor: props.theme.palette.background.default,
+              }}
+            >
+              <FormControl>
+              <label htmlFor="contained-button-file" style={{   
+                alignSelf: "center" 
+              }}>
+              <Avatar
+                alt= {userName}
+                src={userAvatar}
+                sx={{ width: "120px", height: "120px",
+                alignSelf: "center", border: "6px solid #ffffffa9"
+              }}
+              />
+              </label>
+              
+              <IconButton sx ={{width: "fit-content" , alignSelf: "center"}}
+              >
+                  <label htmlFor="contained-button-file" sx={{  
+                alignSelf: "center" 
+              }}>
+                <PhotoCamera />
+                <Input accept="image/*" id="contained-button-file" type="file" 
+                hidden 
+                sx = {{display: "none", width: "fit-content" , alignSelf: "center", height: "fit-content"}}
+                onChange={
+                  (e) => {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onloadend = () => {
+                      setAvatar(reader.result);
+                      localStorage.setItem("avatar", reader.result);
+                    };
+                  }
+                } /></label>
+                
+              </IconButton>
+                <Box sx={{ display: "flex", gap: "1rem" }}>
+                  
+     
+
+              <TextField
+                id="outlined-basic"
+                label="Tag"
+                placeholder={
+                ['Jhon Doe', 'Caique', 'Maria', 'Diogo', 'Julia'
+              ] [Math.floor(Math.random() * 5)]
+                }
+                variant="outlined"   style={{ backgroundColor: props.theme.palette.background.paper }}
+                
+                value={userName}
+                onChange={(e) => {setUsername(e.target.value)
+                localStorage.setItem("username", e.target.value)
+                }}
+              />
+
+             
+              </Box>
+            
+             </FormControl>
+            </Box>
+          </Modal>
+          
+      </>
     );
   }
   export default ResponsiveAppBar;
