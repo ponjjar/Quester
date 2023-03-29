@@ -56,6 +56,8 @@ const style = {
 export default function App() {
   //loading [loading, loadingSuggestions]
   const [loading, setLoading] = useState([false, false]);
+  const [logo, setLogo] = // random number between 0 and 13
+  useState(Math.floor(Math.random() * 14));
   const [result, setResult] = useState();
   const [suggestions, setSuggestions] = useState([]);
   const [openModalLang, setModalVisibleLang] = useState(false);
@@ -310,7 +312,8 @@ export default function App() {
                           float: "Left",
                           padding: "0 20px 0 0",
                         }}
-                        src={process.env.PUBLIC_URL + "/OwlMaskotDallE.png"}
+                        src={process.env.PUBLIC_URL + `/logos/${
+                          logo }.jpeg`}
                         width={"105em"}
                         align="middle"
                       />
@@ -448,6 +451,7 @@ export default function App() {
                 borderRadius: "20px",
                 backgroundColor: "#fff",
                 flexDirection: "column",
+                border: "1px solid " + theme.palette.primary.main,
                 backgroundColor: theme.palette.background.default,
               }}
             >

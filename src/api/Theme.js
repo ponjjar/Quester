@@ -124,13 +124,15 @@ export default function themeStyle(themeApplyed) {
       })
     : themeApplyed == "light" &&
       createTheme({
+     
         palette: {
           background: {
-            default: "#fcf4e6",
+            default: "#dee6f4",
+            paper: "#ffffff",
           },
           appBar: {
-            primary: "#a6a7ff",
-            secondary: "#3fa9ff",
+            primary: "#9360d1",
+            secondary: "#7c3fff",
 
             
           },

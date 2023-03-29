@@ -62,6 +62,7 @@ export default function Translator(value, userLang) {
       profile :  "Perfil",
       openSettings :  "Abrir configurações",
       logout :  "Sair",
+      username :  "Nome de usuário",
       
     };
     return portuguese[value];
@@ -93,6 +94,7 @@ export default function Translator(value, userLang) {
       ,profile :  "Perfil",
       openSettings :  "Abrir configuraciones",
       logout :  "Cerrar sesión",
+      username :  "Nombre de usuario",
       
 
     };
@@ -127,6 +129,7 @@ export default function Translator(value, userLang) {
       ,profile :  "Profil",
       openSettings :  "Paramètres",
       logout :  "Se déconnecter",
+      username :  "Nom d'utilisateur",
     }
 
     return french[value];
@@ -158,6 +161,7 @@ export default function Translator(value, userLang) {
       ,profile :  "Profil",
       openSettings :  "Einstellungen öffnen",
       logout :  "Ausloggen",
+      username : "Benutzername",
     };
     return german[value];
   } else if (userLang.toLowerCase().includes("it")) {
@@ -189,6 +193,7 @@ export default function Translator(value, userLang) {
       , profile : "Profilo",
       openSettings :  "Apri impostazioni",
       logout :  "Disconnettersi",
+      username :  "Nome utente",
     };  
     return italian[value];
   } else if (userLang.toLowerCase().includes("ru")) {
@@ -219,6 +224,7 @@ export default function Translator(value, userLang) {
       ,profile : "Профиль",
       openSettings : "Открыть настройки",
       logout : "Выйти",
+      username : "Имя пользователя",
     };
     return russian[value];
   } else if (userLang.toLowerCase().includes("ja")) {
@@ -249,6 +255,7 @@ export default function Translator(value, userLang) {
       , profile : "プロフィール",
       openSettings : "設定を開く",
       logout : "ログアウト",
+      username : "ユーザー名",
     };
     return japanese[value];
   } else if (userLang.toLowerCase().includes("zh")) {
@@ -279,6 +286,7 @@ export default function Translator(value, userLang) {
       , profile: "个人资料",
       openSettings :  "打开设置",
       logout :  "登出",
+      username :  "用户名",
     };
     return chinese[value];
    }
@@ -311,7 +319,7 @@ export default function Translator(value, userLang) {
       profile : "Profile",
       openSettings : "Open settings",
       logout : "Logout",
-    };
+      username : "Username",   };
     return english[value];
   }
-}
+} 

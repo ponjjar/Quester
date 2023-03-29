@@ -643,6 +643,7 @@ export default function Readme() {
                 borderRadius: "20px",
                 backgroundColor: "#fff",
                 flexDirection: "column",
+                border: "1px solid " + theme.palette.primary.main,
                 backgroundColor: theme.palette.background.default,
               }}
             >

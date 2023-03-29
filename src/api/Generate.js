@@ -10,16 +10,15 @@ const DEFAULT_PARAMS = {
 
 function generatePrompt(ask, userLang) {
   if (window.location.pathname != "/readme") {
-  const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
-  return `${Translator("Ask", userLang)}:
+    const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
+    return `${Translator("Ask", userLang)}:
 ${ask}
 `;
-
-} else {
-  return `${Translator("readmeAsk", userLang)}:
+  } else {
+    return `${Translator("readmeAsk", userLang)}:
 ${ask}
 `;
-}
+  }
 }
 function generateSuggestions(ask, userLang) {
   const Ask = ask[0].toUpperCase() + ask.slice(1).toLowerCase();
@@ -27,11 +26,16 @@ function generateSuggestions(ask, userLang) {
 ${ask}
 `;
 }
-export default async function onSubmit(askInput, userLang, temperature, suggestions) {
+export default async function onSubmit(
+  askInput,
+  userLang,
+  temperature,
+  suggestions
+) {
   if (temperature != 0.1) {
     DEFAULT_PARAMS.temperature = temperature;
   }
-  
+
   const requestOptions = {
     method: "POST",
     headers: {
@@ -40,7 +44,10 @@ export default async function onSubmit(askInput, userLang, temperature, suggesti
     },
     body: JSON.stringify({
       ...DEFAULT_PARAMS,
-      prompt: suggestions === undefined? generatePrompt(askInput,userLang) : generateSuggestions(askInput,userLang)
+      prompt:
+        suggestions === undefined
+          ? generatePrompt(askInput, userLang)
+          : generateSuggestions(askInput, userLang),
     }),
   };
   const response = await fetch(
@@ -50,25 +57,16 @@ export default async function onSubmit(askInput, userLang, temperature, suggesti
 
   const data = await response.json();
 
-  /*  const completion = await openai.createCompletion("text-davinci-003", {
-    prompt: generatePrompt(answerInput),
-    temperature: 0.6,
-  });
-  //const body = await openai.text();
-  //console.log(body);
-  res.status(200).json({ result: completion.data.choices[0].text });
-  const data = await res.json();
-  console.log(data)*/
   //remove the first line if has a line break
   for (let i = 0; i < 3; i++) {
     if (data.choices[0].text.split("\n")[0] === "") {
       data.choices[0].text = data.choices[0].text.slice(1);
     }
   }
-  if(suggestions != undefined){
+  if (suggestions != undefined) {
     let newData = data.choices[0].text.split("-");
 
-    return newData
+    return newData;
   }
 
   return data.choices[0].text;
