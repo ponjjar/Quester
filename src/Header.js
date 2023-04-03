@@ -15,15 +15,17 @@ import AdbIcon from "@mui/icons-material/Adb";
 import themeStyle from "./api/Theme";
 import Translator from "./api/Translator";
 import {
+  Alert,
   Collapse,
   FormControl,
   Icon,
   Input,
   InputAdornment,
+  Link,
   Modal,
   TextField,
 } from "@mui/material";
-import { Close, PhotoCamera } from "@mui/icons-material";
+import { Close, OpenInBrowser, PhotoCamera } from "@mui/icons-material";
 import { width } from "@mui/system";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 
@@ -35,6 +37,7 @@ function ResponsiveAppBar(props) {
   ];
   const [configsMenu, setConfigsMenu] = React.useState(false);
   const [userName, setUsername] = React.useState(null);
+  const [apikey, setApiKey] = React.useState(null);
   const [userAvatar, setAvatar] = React.useState(null);
   if (localStorage.getItem("avatar") != null && userAvatar == null) {
     setAvatar(localStorage.getItem("avatar"));
@@ -45,7 +48,12 @@ function ResponsiveAppBar(props) {
     setUsername(localStorage.getItem("username"));
   } else if (localStorage.getItem("username") === null && userName != null) {
     localStorage.setItem("username", userName);
+  } if (localStorage.getItem("openai") != null && apikey == null) {
+    setApiKey(localStorage.getItem("openai"));
+  } else if (localStorage.getItem("openai") === null && apikey != null) {
+    localStorage.setItem("openai", apikey);
   }
+
 
   const pages = Translator("tabs", userLang);
 
@@ -81,7 +89,9 @@ function ResponsiveAppBar(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  if (((apikey == null || apikey.length < 40 ) && (localStorage.getItem("openai") === null || localStorage.getItem("openai").length < 40)) && !configsMenu) {
+    setConfigsMenu(true);
+  }
   return (
     <>
       <AppBar
@@ -383,8 +393,53 @@ function ResponsiveAppBar(props) {
                 }}
               />
             </Box>
-          </FormControl>
+            <Collapse in = {apikey == null || apikey.length < 40 }  >
+                <Alert severity="warning" sx={{ marginTop: "1rem" }}>
+                  {Translator("apiKeyError", userLang)}  
+                </Alert>
+            </Collapse>
+            <Box sx={{ display: "flex", gap: "1rem" }}>
+             
+
+              <TextField
+                id="outlined-basic"
+                fullWidth
+                label={"OpenAI API Key"} 
+                variant="outlined"
+                autoComplete="off"
+                type="password"
+                style={{
+                  backgroundColor: props.theme.palette.background.paper,
+                  
+                  marginTop: "1rem",
+                }}
+                value={apikey}
+                onChange={(e) => {
+                  setApiKey(e.target.value);
+                  localStorage.setItem("openai", e.target.value);
+                }}
+              />
+            </Box>
+          </FormControl> 
+          <Link href="https://beta.openai.com/account/api-keys" 
+                target="_blank"
+          > 
+                <Button
+                  sx={{
+                    color: "white",
+                    marginTop: "0.5rem",
+                    backgroundColor: props.theme.palette.secondary.main,
+                    "&:hover": {
+                      backgroundColor: props.theme.palette.primary.dark,
+                    },
+                  }}
+                >
+                   <OpenInBrowser></OpenInBrowser>
+                  {Translator("getOpenAIKey", userLang)}
+                </Button>
+              </Link>
         </Box>
+        
       </Modal>
     </>
   );

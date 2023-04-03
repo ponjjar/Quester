@@ -40,7 +40,9 @@ export default async function onSubmit(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + String(process.env.REACT_APP_API_KEY),
+      Authorization: "Bearer " + String(
+        localStorage.getItem("openai")
+      ),
     },
     body: JSON.stringify({
       ...DEFAULT_PARAMS,
@@ -54,6 +56,12 @@ export default async function onSubmit(
     "https://api.openai.com/v1/completions",
     requestOptions
   );
+  if (response.status != 200 && localStorage.getItem("openai").length > 40) {
+     localStorage.setItem("openai", ""); 
+     window.location.reload();
+
+    
+  }
 
   const data = await response.json();
 

@@ -63,6 +63,8 @@ export default function Translator(value, userLang) {
       openSettings :  "Abrir configurações",
       logout :  "Sair",
       username :  "Nome de usuário",
+      getOpenAIKey: "Obter chave da OpenAI",
+      apiKeyError: "Antes de começar, você precisa obter uma chave da OpenAI. Clique no botão abaixo para obter uma chave gratuita.",
       
     };
     return portuguese[value];
@@ -95,6 +97,8 @@ export default function Translator(value, userLang) {
       openSettings :  "Abrir configuraciones",
       logout :  "Cerrar sesión",
       username :  "Nombre de usuario",
+      getOpenAIKey: "Obtener clave de OpenAI",
+      apiKeyError: "Antes de comenzar, necesitas obtener una clave de OpenAI. Haga clic en el botón a continuación para obtener una clave gratuita.",
       
 
     };
@@ -130,6 +134,8 @@ export default function Translator(value, userLang) {
       openSettings :  "Paramètres",
       logout :  "Se déconnecter",
       username :  "Nom d'utilisateur",
+      getOpenAIKey: "Obtenir une clé OpenAI",
+      apiKeyError: "Avant de commencer, vous devez obtenir une clé OpenAI. Cliquez sur le bouton ci-dessous pour obtenir une clé gratuite.",
     }
 
     return french[value];
@@ -162,6 +168,8 @@ export default function Translator(value, userLang) {
       openSettings :  "Einstellungen öffnen",
       logout :  "Ausloggen",
       username : "Benutzername",
+      getOpenAIKey: "OpenAI-Schlüssel erhalten",
+      apiKeyError: "Bevor Sie beginnen, müssen Sie einen OpenAI-Schlüssel erhalten. Klicken Sie auf die Schaltfläche unten, um einen kostenlosen Schlüssel zu erhalten.",
     };
     return german[value];
   } else if (userLang.toLowerCase().includes("it")) {
@@ -194,6 +202,8 @@ export default function Translator(value, userLang) {
       openSettings :  "Apri impostazioni",
       logout :  "Disconnettersi",
       username :  "Nome utente",
+      getOpenAIKey: "Ottieni una chiave OpenAI",
+      apiKeyError: "Prima di iniziare, devi ottenere una chiave OpenAI. Fai clic sul pulsante qui sotto per ottenere una chiave gratuita.",
     };  
     return italian[value];
   } else if (userLang.toLowerCase().includes("ru")) {
@@ -225,6 +235,8 @@ export default function Translator(value, userLang) {
       openSettings : "Открыть настройки",
       logout : "Выйти",
       username : "Имя пользователя",
+      getOpenAIKey: "Получить ключ OpenAI",
+      apiKeyError: "Прежде чем начать, вы должны получить ключ OpenAI. Нажмите на кнопку ниже, чтобы получить бесплатный ключ.",
     };
     return russian[value];
   } else if (userLang.toLowerCase().includes("ja")) {
@@ -256,6 +268,8 @@ export default function Translator(value, userLang) {
       openSettings : "設定を開く",
       logout : "ログアウト",
       username : "ユーザー名",
+      getOpenAIKey: "OpenAIキーを取得する",
+      apiKeyError: "始める前に、OpenAIキーを取得する必要があります。下のボタンをクリックして無料のキーを取得してください。",
     };
     return japanese[value];
   } else if (userLang.toLowerCase().includes("zh")) {
@@ -287,6 +301,8 @@ export default function Translator(value, userLang) {
       openSettings :  "打开设置",
       logout :  "登出",
       username :  "用户名",
+      getOpenAIKey: "获取OpenAI密钥",
+      apiKeyError: "在开始之前，您必须获取OpenAI密钥。单击下面的按钮以获取免费密钥。",
     };
     return chinese[value];
    }
@@ -319,7 +335,10 @@ export default function Translator(value, userLang) {
       profile : "Profile",
       openSettings : "Open settings",
       logout : "Logout",
-      username : "Username",   };
+      username : "Username",
+      getOpenAIKey: "Get OpenAI key",
+      apiKeyError: "Before starting, you must get an OpenAI key. Click the button below to get a free key.",
+    };
     return english[value];
   }
 } 
